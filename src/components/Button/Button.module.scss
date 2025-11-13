@@ -1,0 +1,99 @@
+@import '../../styles/variables';
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  border: 1px solid transparent;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all $transition-base;
+  position: relative;
+  min-height: 44px;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 112, 243, 0.2);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.primary {
+  background-color: $primary-color;
+  color: $text-white;
+
+  &:hover:not(:disabled) {
+    background-color: $primary-hover;
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+}
+
+.secondary {
+  background-color: $secondary-color;
+  color: $text-white;
+
+  &:hover:not(:disabled) {
+    background-color: darken($secondary-color, 10%);
+  }
+}
+
+.outline {
+  background-color: transparent;
+  color: $primary-color;
+  border-color: $primary-color;
+
+  &:hover:not(:disabled) {
+    background-color: $primary-light;
+  }
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.spinner {
+  display: inline-flex;
+  align-items: center;
+  animation: spin 1s linear infinite;
+
+  svg {
+    display: block;
+  }
+}
+
+.hidden {
+  opacity: 0;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .outline {
+    border-color: $primary-color;
+    color: $primary-color;
+
+    &:hover:not(:disabled) {
+      background-color: rgba(0, 112, 243, 0.1);
+    }
+  }
+}
+

@@ -1,0 +1,463 @@
+@import '../../styles/variables';
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  width: 100%;
+  overflow: hidden;
+}
+
+// Left Section - Purple Gradient
+.leftSection {
+  flex: 0 0 60%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.artwork {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.3;
+}
+
+.artLine1 {
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  width: 200px;
+  height: 2px;
+  background: white;
+  transform: rotate(-25deg);
+  border-radius: 2px;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50px;
+    left: 30px;
+    width: 150px;
+    height: 2px;
+    background: white;
+    transform: rotate(45deg);
+    border-radius: 2px;
+  }
+}
+
+.artLine2 {
+  position: absolute;
+  bottom: 15%;
+  right: 10%;
+  width: 180px;
+  height: 2px;
+  background: white;
+  transform: rotate(35deg);
+  border-radius: 2px;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: 40px;
+    right: 20px;
+    width: 120px;
+    height: 2px;
+    background: white;
+    transform: rotate(-20deg);
+    border-radius: 2px;
+  }
+}
+
+.artLine3 {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  width: 100px;
+  height: 2px;
+  background: white;
+  transform: rotate(90deg);
+  border-radius: 2px;
+}
+
+.artPlus1 {
+  position: absolute;
+  top: 20%;
+  right: 15%;
+  color: white;
+  font-size: 24px;
+  font-weight: 300;
+  opacity: 0.6;
+}
+
+.artPlus2 {
+  position: absolute;
+  bottom: 25%;
+  left: 12%;
+  color: white;
+  font-size: 20px;
+  font-weight: 300;
+  opacity: 0.5;
+}
+
+.artPlus3 {
+  position: absolute;
+  top: 60%;
+  right: 25%;
+  color: white;
+  font-size: 18px;
+  font-weight: 300;
+  opacity: 0.4;
+}
+
+.artCircle1 {
+  position: absolute;
+  top: 35%;
+  right: 20%;
+  color: white;
+  font-size: 16px;
+  font-weight: 300;
+  opacity: 0.5;
+  border: 1px solid white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.artCircle2 {
+  position: absolute;
+  bottom: 30%;
+  left: 8%;
+  color: white;
+  font-size: 14px;
+  font-weight: 300;
+  opacity: 0.4;
+  border: 1px solid white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.artDots {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  
+  &::before,
+  &::after {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+  
+  &::before {
+    margin-bottom: 8px;
+  }
+}
+
+.leftContent {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 2rem;
+  max-width: 500px;
+}
+
+.welcomeTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 1rem 0;
+  line-height: 1.2;
+}
+
+.welcomeText {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0;
+  line-height: 1.6;
+}
+
+// Right Section - White Card
+.rightSection {
+  flex: 0 0 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  padding: 2rem;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  padding: 2.5rem 0;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 2rem 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 1rem;
+  color: #9ca3af;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  padding: 0.875rem 1rem 0.875rem 3rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #1a1a1a;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+.inputError {
+  border-color: #dc3545;
+
+  &:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+  }
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #6b7280;
+  }
+
+  svg {
+    display: block;
+  }
+}
+
+.errorText {
+  font-size: 0.875rem;
+  color: #dc3545;
+  margin-top: -0.25rem;
+}
+
+.submitButton {
+  width: 100%;
+  margin-top: 0.5rem;
+  background-color: #764ba2;
+  color: white;
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  &:hover:not(:disabled) {
+    background-color: #667eea;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.buttonSpinner {
+  display: inline-flex;
+  align-items: center;
+  animation: spin 1s linear infinite;
+
+  svg {
+    display: block;
+  }
+}
+
+.successContainer {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.successIcon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1.5rem;
+  color: #28a745;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(40, 167, 69, 0.1);
+  border-radius: 50%;
+}
+
+.successTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 1rem 0;
+}
+
+.successText {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0 0 2rem 0;
+  line-height: 1.6;
+}
+
+.backButton {
+  width: 100%;
+  background-color: #764ba2;
+  color: white;
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #667eea;
+  }
+}
+
+.footer {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: #6b7280;
+
+  p {
+    margin: 0;
+  }
+}
+
+.link {
+  color: #764ba2;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #667eea;
+    text-decoration: underline;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive Design
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .leftSection {
+    flex: 0 0 40%;
+    min-height: 300px;
+  }
+
+  .rightSection {
+    flex: 1;
+  }
+
+  .welcomeTitle {
+    font-size: 2rem;
+  }
+
+  .welcomeText {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .leftSection {
+    display: none;
+  }
+
+  .rightSection {
+    flex: 1;
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 1.5rem 0;
+  }
+
+  .title {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+  }
+}
+

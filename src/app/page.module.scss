@@ -1,0 +1,438 @@
+@import '../styles/variables';
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $bg-secondary;
+}
+
+.header {
+  background-color: $bg-primary;
+  border-bottom: 1px solid $border-color;
+  padding: $spacing-md $spacing-xl;
+  box-shadow: $shadow-sm;
+}
+
+.headerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $text-primary;
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.welcomeText {
+  font-size: 0.875rem;
+  color: $text-secondary;
+  font-weight: 500;
+}
+
+.main {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: $spacing-2xl $spacing-xl;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: $spacing-2xl;
+  padding: $spacing-2xl 0;
+}
+
+.heroTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  color: $text-primary;
+  margin: 0 0 $spacing-md 0;
+  line-height: 1.2;
+}
+
+.heroSubtitle {
+  font-size: 1.25rem;
+  color: $text-secondary;
+  margin: 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: $spacing-xl;
+  margin-bottom: $spacing-xl;
+}
+
+.tableSection {
+  margin-top: $spacing-xl;
+
+  .card {
+    padding: $spacing-xl;
+    overflow: visible;
+  }
+}
+
+.card {
+  background-color: $bg-primary;
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  box-shadow: $shadow-md;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $text-primary;
+  margin: 0 0 $spacing-lg 0;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border-radius: $radius-full;
+  background-color: $primary-light;
+  color: $primary-color;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  border-radius: $radius-full;
+  text-transform: capitalize;
+
+  &.active {
+    background-color: rgba(40, 167, 69, 0.1);
+    color: $success-color;
+  }
+
+  &.pending {
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+  }
+
+  &.inactive {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: $error-color;
+  }
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid $border-color;
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+}
+
+.infoLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.infoValue {
+  font-size: 1rem;
+  color: $text-primary;
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: $text-secondary;
+  margin: 0;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-md;
+  padding: $spacing-2xl;
+  min-height: 200px;
+
+  p {
+    color: $text-secondary;
+    margin: 0;
+  }
+}
+
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-lg;
+  padding: $spacing-2xl;
+  min-height: 200px;
+  text-align: center;
+}
+
+.errorMessage {
+  color: $error-color;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.actionButtons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+}
+
+.editButton,
+.deleteButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid $border-color;
+  background-color: $bg-primary;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all $transition-base;
+  color: $text-primary;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: $shadow-sm;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  svg {
+    display: block;
+  }
+}
+
+.editButton {
+  color: $primary-color;
+  border-color: $primary-color;
+
+  &:hover {
+    background-color: $primary-light;
+    border-color: $primary-hover;
+    color: $primary-hover;
+  }
+}
+
+.deleteButton {
+  color: $error-color;
+  border-color: $error-color;
+
+  &:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-color: $error-color;
+    color: $error-color;
+  }
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 112, 243, 0.3);
+  border-top-color: $primary-color;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: $bg-dark;
+  }
+
+  .header {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-bottom-color: $border-color-dark;
+  }
+
+  .card {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .logo {
+    color: $text-white;
+  }
+
+  .welcomeText {
+    color: $text-light;
+  }
+
+  .heroTitle {
+    color: $text-white;
+  }
+
+  .heroSubtitle {
+    color: $text-light;
+  }
+
+  .cardTitle {
+    color: $text-white;
+  }
+
+  .infoLabel {
+    color: $text-light;
+  }
+
+  .infoValue {
+    color: $text-white;
+  }
+
+  .description {
+    color: $text-light;
+  }
+
+  .loadingContainer {
+    p {
+      color: $text-light;
+    }
+  }
+
+  .errorMessage {
+    color: $error-color;
+  }
+
+  .infoItem {
+    border-bottom-color: $border-color-dark;
+  }
+
+  .badge {
+    background-color: rgba(0, 112, 243, 0.15);
+    color: $primary-color;
+  }
+
+  .statusBadge {
+    &.active {
+      background-color: rgba(40, 167, 69, 0.15);
+      color: $success-color;
+    }
+
+    &.pending {
+      background-color: rgba(255, 193, 7, 0.15);
+      color: #ffc107;
+    }
+
+    &.inactive {
+      background-color: rgba(220, 53, 69, 0.15);
+      color: $error-color;
+    }
+  }
+
+  .editButton,
+  .deleteButton {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: $border-color-dark;
+    color: $text-white;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  .editButton {
+    color: $primary-color;
+    border-color: $primary-color;
+
+    &:hover {
+      background-color: rgba(0, 112, 243, 0.15);
+      border-color: $primary-hover;
+      color: $primary-hover;
+    }
+  }
+
+  .deleteButton {
+    color: $error-color;
+    border-color: $error-color;
+
+    &:hover {
+      background-color: rgba(220, 53, 69, 0.15);
+      border-color: $error-color;
+      color: $error-color;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .main {
+    padding: $spacing-xl $spacing-md;
+  }
+
+  .header {
+    padding: $spacing-md;
+  }
+
+  .headerContent {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.125rem;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+  }
+
+  .tableSection {
+    margin-top: $spacing-lg;
+  }
+}
+
+
