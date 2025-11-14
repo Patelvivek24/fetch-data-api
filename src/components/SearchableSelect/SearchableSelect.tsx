@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import styles from './SearchableSelect.module.scss';
 
 interface SelectOption {
@@ -82,6 +82,25 @@ export default function SearchableSelect({
     };
   }, [isOpen]);
 
+  const handleSelect = useCallback((selectedValue: string) => {
+    onChange(selectedValue);
+    setIsOpen(false);
+    setSearchTerm('');
+    setHighlightedIndex(-1);
+    inputRef.current?.blur();
+  }, [onChange]);
+
+  const handleAddNew = useCallback(() => {
+    if (onAddNew && searchTerm.trim()) {
+      onAddNew(searchTerm.trim());
+      onChange(searchTerm.trim());
+      setIsOpen(false);
+      setSearchTerm('');
+      setHighlightedIndex(-1);
+      inputRef.current?.blur();
+    }
+  }, [onAddNew, onChange, searchTerm]);
+
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -129,7 +148,7 @@ export default function SearchableSelect({
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isOpen, highlightedIndex, filteredOptions, showAddNewOption]);
+  }, [isOpen, highlightedIndex, filteredOptions, showAddNewOption, handleAddNew, handleSelect]);
 
   // Scroll highlighted option into view
   useEffect(() => {
@@ -159,25 +178,6 @@ export default function SearchableSelect({
       setSearchTerm(value);
     } else {
       setSearchTerm('');
-    }
-  };
-
-  const handleSelect = (selectedValue: string) => {
-    onChange(selectedValue);
-    setIsOpen(false);
-    setSearchTerm('');
-    setHighlightedIndex(-1);
-    inputRef.current?.blur();
-  };
-
-  const handleAddNew = () => {
-    if (onAddNew && searchTerm.trim()) {
-      onAddNew(searchTerm.trim());
-      onChange(searchTerm.trim());
-      setIsOpen(false);
-      setSearchTerm('');
-      setHighlightedIndex(-1);
-      inputRef.current?.blur();
     }
   };
 
@@ -247,7 +247,7 @@ export default function SearchableSelect({
                 }`}
               >
                 <span className={styles.addNewIcon}>+</span>
-                {addNewLabel}: "{searchTerm.trim()}"
+                {addNewLabel}: &quot;{searchTerm.trim()}&quot;
               </div>
             )}
             {filteredOptions.map((option, index) => {

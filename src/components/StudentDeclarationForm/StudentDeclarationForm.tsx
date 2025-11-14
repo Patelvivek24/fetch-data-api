@@ -25,7 +25,7 @@ export interface StudentFormData {
 }
 
 interface StudentDeclarationFormProps {
-  onSubmit?: (data: StudentFormData) => void;
+  onSubmit?: (data: StudentFormData) => void | Promise<void>;
   initialData?: Partial<StudentFormData>;
   className?: string;
 }

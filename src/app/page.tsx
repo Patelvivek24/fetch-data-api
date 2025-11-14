@@ -362,7 +362,7 @@ export default function Home() {
     }
   };
 
-  const tableColumns: TableColumn<unknown>[] = useMemo(
+  const tableColumns: TableColumn<Record<string, unknown>>[] = useMemo(
     () => [
       {
         key: 'name',
@@ -378,24 +378,25 @@ export default function Home() {
         key: 'role',
         header: 'Role',
         width: '12%',
-        render: (value: string) => (
-          <span className={styles.badge}>{value}</span>
+        render: (value: unknown) => (
+          <span className={styles.badge}>{String(value)}</span>
         ),
       },
       {
         key: 'status',
         header: 'Status',
         width: '12%',
-        render: (value: string) => {
+        render: (value: unknown) => {
+          const statusValue = String(value);
           const statusClass =
-            value === 'Active'
+            statusValue === 'Active'
               ? styles.active
-              : value === 'Pending'
+              : statusValue === 'Pending'
                 ? styles.pending
                 : styles.inactive;
           return (
             <span className={`${styles.statusBadge} ${statusClass}`}>
-              {value}
+              {statusValue}
             </span>
           );
         },
@@ -404,8 +405,8 @@ export default function Home() {
         key: 'joinDate',
         header: 'Join Date',
         width: '12%',
-        render: (value: string) => {
-          const date = new Date(value);
+        render: (value: unknown) => {
+          const date = new Date(String(value));
           return date.toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'short',
@@ -418,60 +419,63 @@ export default function Home() {
         header: 'Actions',
         width: '19%',
         align: 'center',
-        render: (_value: unknown, row: TableDataItem) => (
-          <div className={styles.actionButtons}>
-            <button
-              className={styles.editButton}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleEdit(row);
-              }}
-              aria-label={`Edit ${row.name}`}
-              title="Edit"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+        render: (_value: unknown, row: Record<string, unknown>) => {
+          const rowData = row as unknown as TableDataItem;
+          return (
+            <div className={styles.actionButtons}>
+              <button
+                className={styles.editButton}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleEdit(rowData);
+                }}
+                aria-label={`Edit ${rowData.name}`}
+                title="Edit"
               >
-                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
-              </svg>
-            </button>
-            <button
-              className={styles.deleteButton}
-              onClick={(e) => {
-                e.stopPropagation();
-                if (row.id) {
-                  handleDelete(row.id);
-                }
-              }}
-              aria-label={`Delete ${row.name}`}
-              title="Delete"
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                  <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                </svg>
+              </button>
+              <button
+                className={styles.deleteButton}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (rowData.id) {
+                    handleDelete(rowData.id);
+                  }
+                }}
+                aria-label={`Delete ${rowData.name}`}
+                title="Delete"
               >
-                <path d="M3 6h18" />
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                <line x1="10" y1="11" x2="10" y2="17" />
-                <line x1="14" y1="11" x2="14" y2="17" />
-              </svg>
-            </button>
-          </div>
-        ),
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M3 6h18" />
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                  <line x1="10" y1="11" x2="10" y2="17" />
+                  <line x1="14" y1="11" x2="14" y2="17" />
+                </svg>
+              </button>
+            </div>
+          );
+        },
       },
     ],
     []
@@ -580,7 +584,7 @@ export default function Home() {
             ) : (
               <Table
                 columns={tableColumns}
-                data={tableData}
+                data={tableData as unknown as Record<string, unknown>[]}
                 striped={true}
                 hoverable={true}
                 pagination={true}
