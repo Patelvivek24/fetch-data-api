@@ -3,15 +3,15 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import styles from './Table.module.scss';
 
-export interface TableColumn<T = any> {
+export interface TableColumn<T = unknown> {
   key: string;
   header: string;
-  render?: (value: any, row: T) => React.ReactNode;
+  render?: (value: unknown, row: T) => React.ReactNode;
   align?: 'left' | 'center' | 'right';
   width?: string;
 }
 
-export interface TableProps<T = any> {
+export interface TableProps<T = unknown> {
   columns: TableColumn<T>[];
   data: T[];
   className?: string;
@@ -23,7 +23,7 @@ export interface TableProps<T = any> {
   showPageInfo?: boolean;
 }
 
-export default function Table<T extends Record<string, any>>({
+export default function Table<T extends Record<string, unknown>>({
   columns,
   data,
   className = '',
@@ -151,7 +151,7 @@ export default function Table<T extends Record<string, any>>({
           </thead>
           <tbody>
             {paginatedData.map((row, rowIndex) => {
-              const rowKey = row.id !== undefined ? row.id : rowIndex;
+              const rowKey = row && typeof row === 'object' && 'id' in row && row.id != null ? String(row.id) : String(rowIndex);
               return (
                 <tr key={rowKey} className={styles.row}>
                   {columns.map((column) => {
@@ -164,7 +164,9 @@ export default function Table<T extends Record<string, any>>({
                           textAlign: column.align || 'left',
                         }}
                       >
-                        {column.render ? column.render(value, row) : value}
+                        {column.render
+                          ? (column.render(value, row) as React.ReactNode)
+                          : (value as React.ReactNode)}
                       </td>
                     );
                   })}

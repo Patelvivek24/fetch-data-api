@@ -1,0 +1,209 @@
+@import '../../styles/variables';
+
+.form {
+  background-color: $bg-primary;
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  box-shadow: $shadow-md;
+  width: 100%;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: $text-primary;
+  margin: 0 0 $spacing-xl 0;
+}
+
+.membershipSection {
+  margin-bottom: $spacing-xl;
+}
+
+.newMembershipNotice {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+  padding: $spacing-md;
+  background-color: rgba(0, 112, 243, 0.1);
+  border: 1px solid rgba(0, 112, 243, 0.3);
+  border-radius: $radius-md;
+  color: $primary-color;
+  font-size: 0.875rem;
+}
+
+.noticeIcon {
+  font-size: 1rem;
+}
+
+.multipleRecordsOption {
+  margin-top: $spacing-md;
+  padding: $spacing-md;
+  background-color: $bg-secondary;
+  border-radius: $radius-md;
+  border: 1px solid $border-color;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: $text-primary;
+  user-select: none;
+}
+
+.checkbox {
+  width: 1.125rem;
+  height: 1.125rem;
+  cursor: pointer;
+  accent-color: $primary-color;
+}
+
+.helpText {
+  margin: $spacing-sm 0 0 0;
+  font-size: 0.8125rem;
+  color: $text-secondary;
+  font-style: italic;
+}
+
+.section {
+  margin-bottom: $spacing-xl;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: $text-primary;
+  margin: 0 0 $spacing-lg 0;
+}
+
+.twoColumn {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-xl;
+  margin-top: $spacing-md;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.columnLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $text-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.contactSection {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.contactRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-lg;
+}
+
+.phoneRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: $spacing-lg;
+}
+
+.dateInput,
+.emailInput,
+.phoneInput {
+  width: 100%;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: $spacing-md;
+  margin-top: $spacing-xl;
+  padding-top: $spacing-xl;
+  border-top: 1px solid $border-color;
+}
+
+@media (prefers-color-scheme: dark) {
+  .form {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .title {
+    color: $text-white;
+  }
+
+  .sectionTitle {
+    color: $text-white;
+  }
+
+  .columnLabel {
+    color: $text-white;
+  }
+
+  .formActions {
+    border-top-color: $border-color-dark;
+  }
+
+  .newMembershipNotice {
+    background-color: rgba(0, 112, 243, 0.2);
+    border-color: rgba(0, 112, 243, 0.4);
+    color: $primary-color;
+  }
+
+  .multipleRecordsOption {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: $border-color-dark;
+  }
+
+  .checkboxLabel {
+    color: $text-white;
+  }
+
+  .helpText {
+    color: $text-light;
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .twoColumn {
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+  }
+
+  .contactRow {
+    grid-template-columns: 1fr;
+  }
+
+  .phoneRow {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .form {
+    padding: $spacing-lg;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .formActions {
+    flex-direction: column;
+    
+    button {
+      width: 100%;
+    }
+  }
+}
+

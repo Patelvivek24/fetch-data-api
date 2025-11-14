@@ -1,0 +1,281 @@
+@import '../../styles/variables';
+
+.card {
+  background: linear-gradient(135deg, $bg-primary 0%, rgba(0, 112, 243, 0.05) 100%);
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  box-shadow: $shadow-md;
+  border: 1px solid $border-color;
+  transition: all $transition-base;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, $primary-color, $primary-hover);
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+    border-color: $primary-color;
+  }
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-md;
+  border-bottom: 2px solid $border-color;
+}
+
+.actionButtons {
+  display: flex;
+  gap: $spacing-xs;
+  align-items: center;
+}
+
+.editButton,
+.deleteButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: $radius-md;
+  background: transparent;
+  color: $text-secondary;
+  cursor: pointer;
+  transition: all $transition-base;
+  padding: 0;
+
+  &:hover {
+    background-color: rgba(0, 112, 243, 0.1);
+    color: $primary-color;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.editButton {
+  &:hover {
+    background-color: rgba(0, 112, 243, 0.1);
+    color: $primary-color;
+  }
+}
+
+.deleteButton {
+  &:hover {
+    background-color: rgba(220, 38, 38, 0.1);
+    color: #dc2626;
+  }
+}
+
+.membershipBadge {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.badgeLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: $text-secondary;
+}
+
+.badgeValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $primary-color;
+  font-family: 'Courier New', monospace;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.sectionTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: $text-secondary;
+  margin: 0;
+  padding-bottom: $spacing-xs;
+  border-bottom: 1px solid $border-color;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $spacing-md;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.infoLabel {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: $text-secondary;
+}
+
+.infoValue {
+  font-size: 1rem;
+  font-weight: 500;
+  color: $text-primary;
+}
+
+.emailLink {
+  color: $primary-color;
+  text-decoration: none;
+  transition: color $transition-base;
+
+  &:hover {
+    color: $primary-hover;
+    text-decoration: underline;
+  }
+}
+
+.addressBlock {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.addressLine {
+  font-size: 1rem;
+  color: $text-primary;
+  line-height: 1.6;
+}
+
+.phoneGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: $spacing-md;
+}
+
+.phoneItem {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  padding: $spacing-sm;
+  background-color: rgba(0, 112, 243, 0.05);
+  border-radius: $radius-md;
+  border: 1px solid rgba(0, 112, 243, 0.1);
+}
+
+.phoneLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: $text-secondary;
+}
+
+.phoneValue {
+  font-size: 1rem;
+  font-weight: 500;
+  color: $text-primary;
+  font-family: 'Courier New', monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 112, 243, 0.1) 100%);
+    border-color: $border-color-dark;
+  }
+
+  .cardHeader {
+    border-bottom-color: $border-color-dark;
+  }
+
+  .sectionTitle {
+    border-bottom-color: $border-color-dark;
+    color: $text-light;
+  }
+
+  .infoLabel {
+    color: $text-light;
+  }
+
+  .infoValue {
+    color: $text-white;
+  }
+
+  .addressLine {
+    color: $text-white;
+  }
+
+  .phoneItem {
+    background-color: rgba(0, 112, 243, 0.1);
+    border-color: rgba(0, 112, 243, 0.2);
+  }
+
+  .phoneLabel {
+    color: $text-light;
+  }
+
+  .phoneValue {
+    color: $text-white;
+  }
+
+  .editButton,
+  .deleteButton {
+    color: $text-light;
+
+    &:hover {
+      background-color: rgba(0, 112, 243, 0.2);
+      color: $primary-color;
+    }
+  }
+
+  .deleteButton:hover {
+    background-color: rgba(220, 38, 38, 0.2);
+    color: #ef4444;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .card {
+    padding: $spacing-md;
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .phoneGrid {
+    grid-template-columns: 1fr;
+  }
+}
+

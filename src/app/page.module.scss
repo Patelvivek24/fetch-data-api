@@ -91,6 +91,172 @@
   }
 }
 
+.formSection {
+  margin-top: $spacing-xl;
+
+  .card {
+    padding: 0;
+    overflow: visible;
+  }
+}
+
+.studentDeclarationsSection {
+  margin-top: $spacing-xl;
+
+  .card {
+    padding: $spacing-xl;
+    overflow: visible;
+  }
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: $spacing-xl;
+  margin-top: $spacing-lg;
+}
+
+.emptyContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-2xl;
+  min-height: 200px;
+  text-align: center;
+
+  p {
+    color: $text-secondary;
+    font-size: 1rem;
+    margin: 0;
+  }
+}
+
+// Pagination styles for cards
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-lg $spacing-xl;
+  margin-top: $spacing-xl;
+  border-top: 1px solid $border-color;
+  background-color: rgba(0, 112, 243, 0.02);
+  border-radius: 0 0 $radius-lg $radius-lg;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+}
+
+.pageInfo {
+  font-size: 0.875rem;
+  color: $text-secondary;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.paginationControls {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+}
+
+.pageButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid $border-color;
+  background-color: $bg-primary;
+  color: $text-primary;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all $transition-base;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &:hover:not(:disabled) {
+    background-color: $primary-light;
+    border-color: $primary-color;
+    color: $primary-color;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 112, 243, 0.2);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled,
+  &.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background-color: $bg-secondary;
+  }
+
+  svg {
+    display: block;
+  }
+}
+
+.pageNumbers {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  margin: 0 $spacing-sm;
+}
+
+.pageNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 38px;
+  padding: 0 $spacing-sm;
+  border: 1px solid $border-color;
+  background-color: $bg-primary;
+  color: $text-primary;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all $transition-base;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &:hover {
+    background-color: $primary-light;
+    border-color: $primary-color;
+    color: $primary-color;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 112, 243, 0.2);
+  }
+
+  &.active {
+    background-color: $primary-color;
+    border-color: $primary-color;
+    color: $text-white;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 112, 243, 0.3);
+
+    &:hover {
+      background-color: $primary-hover;
+      border-color: $primary-hover;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 112, 243, 0.4);
+    }
+  }
+}
+
+.ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 38px;
+  color: $text-secondary;
+  font-size: 0.875rem;
+  user-select: none;
+  font-weight: 500;
+}
+
 .card {
   background-color: $bg-primary;
   border-radius: $radius-lg;
@@ -329,6 +495,65 @@
     color: $text-light;
   }
 
+  .emptyContainer {
+    p {
+      color: $text-light;
+    }
+  }
+
+  .pagination {
+    background-color: rgba(0, 112, 243, 0.05);
+    border-top-color: $border-color-dark;
+  }
+
+  .pageInfo {
+    color: $text-light;
+  }
+
+  .pageButton {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: $border-color-dark;
+    color: $text-white;
+
+    &:hover:not(:disabled) {
+      background-color: rgba(0, 112, 243, 0.15);
+      border-color: $primary-color;
+      color: $primary-color;
+    }
+
+    &:disabled,
+    &.disabled {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+  }
+
+  .pageNumber {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: $border-color-dark;
+    color: $text-white;
+
+    &:hover {
+      background-color: rgba(0, 112, 243, 0.15);
+      border-color: $primary-color;
+      color: $primary-color;
+    }
+
+    &.active {
+      background-color: $primary-color;
+      border-color: $primary-color;
+      color: $text-white;
+
+      &:hover {
+        background-color: $primary-hover;
+        border-color: $primary-hover;
+      }
+    }
+  }
+
+  .ellipsis {
+    color: $text-light;
+  }
+
   .loadingContainer {
     p {
       color: $text-light;
@@ -432,6 +657,172 @@
 
   .tableSection {
     margin-top: $spacing-lg;
+  }
+
+  .studentDeclarationsSection {
+    margin-top: $spacing-lg;
+  }
+
+  .cardsGrid {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+
+  .pagination {
+    flex-direction: column;
+    align-items: stretch;
+    gap: $spacing-md;
+    padding: $spacing-md;
+  }
+
+  .pageInfo {
+    text-align: center;
+    width: 100%;
+  }
+
+  .paginationControls {
+    justify-content: center;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .pageNumbers {
+    margin: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.tableHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: $spacing-lg;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $text-primary;
+  margin-bottom: $spacing-sm;
+  display: block;
+}
+
+.required {
+  color: $error-color;
+  margin-left: 2px;
+}
+
+.select {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  background-color: $bg-primary;
+  color: $text-primary;
+  transition: all $transition-base;
+  font-family: inherit;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 12px;
+  padding-right: 2.5rem;
+
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba(0, 112, 243, 0.1);
+  }
+
+  &:hover {
+    border-color: $primary-hover;
+  }
+
+  &:disabled {
+    background-color: $bg-secondary;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.selectError {
+  border-color: $error-color;
+
+  &:focus {
+    border-color: $error-color;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+  }
+}
+
+.error {
+  font-size: 0.875rem;
+  color: $error-color;
+  margin-top: $spacing-xs;
+}
+
+.formActions {
+  display: flex;
+  gap: $spacing-md;
+  justify-content: flex-end;
+  margin-top: $spacing-lg;
+  padding-top: $spacing-xl;
+  border-top: 1px solid $border-color;
+}
+
+@media (prefers-color-scheme: dark) {
+  .label {
+    color: $text-white;
+  }
+
+  .select {
+    background-color: #1a1a1a;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: $text-white;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239ca3af' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+
+    &:hover {
+      border-color: $primary-color;
+    }
+
+    &:disabled {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  .formActions {
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .tableHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .formActions {
+    flex-direction: column-reverse;
+
+    button {
+      width: 100%;
+    }
   }
 }
 

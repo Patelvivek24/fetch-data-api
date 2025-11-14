@@ -1,0 +1,264 @@
+@import '../../styles/variables';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  width: 100%;
+  position: relative;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $text-primary;
+  display: block;
+}
+
+.inputWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  background-color: $bg-primary;
+  color: $text-primary;
+  transition: all $transition-base;
+  font-family: inherit;
+
+  &:focus {
+    outline: none;
+    border-color: $border-focus;
+    box-shadow: 0 0 0 3px rgba(0, 112, 243, 0.1);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: $primary-hover;
+  }
+
+  &:disabled {
+    background-color: $bg-secondary;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &::placeholder {
+    color: $text-light;
+  }
+}
+
+.inputError {
+  border-color: $error-color;
+
+  &:focus {
+    border-color: $error-color;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+  }
+}
+
+.inputDisabled {
+  background-color: $bg-secondary;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.toggleButton {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $text-secondary;
+  transition: color $transition-base;
+
+  &:hover:not(:disabled) {
+    color: $text-primary;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.chevron {
+  transition: transform $transition-base;
+  color: currentColor;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 0.25rem;
+  background-color: $bg-primary;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  box-shadow: $shadow-lg;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: $z-dropdown;
+  animation: slideDown $transition-base;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.option {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color $transition-fast;
+  color: $text-primary;
+  font-size: 1rem;
+  line-height: 1.5;
+
+  &:hover,
+  &.optionHighlighted {
+    background-color: $primary-light;
+  }
+
+  &.optionSelected {
+    background-color: $primary-light;
+    font-weight: 500;
+    color: $primary-color;
+  }
+
+  &:first-child {
+    border-top-left-radius: $radius-md;
+    border-top-right-radius: $radius-md;
+  }
+
+  &:last-child {
+    border-bottom-left-radius: $radius-md;
+    border-bottom-right-radius: $radius-md;
+  }
+}
+
+.noResults {
+  padding: 0.75rem 1rem;
+  color: $text-secondary;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.addNewOption {
+  color: $primary-color;
+  font-weight: 500;
+  border-bottom: 1px solid $border-color;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &:hover,
+  &.optionHighlighted {
+    background-color: $primary-light;
+    color: $primary-color;
+  }
+}
+
+.addNewIcon {
+  font-size: 1.25rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: $primary-color;
+  color: white;
+  line-height: 1;
+}
+
+.error {
+  font-size: 0.875rem;
+  color: $error-color;
+  margin-top: -$spacing-xs;
+}
+
+@media (prefers-color-scheme: dark) {
+  .label {
+    color: $text-white;
+  }
+
+  .input {
+    background-color: $bg-dark;
+    border-color: $border-color-dark;
+    color: $text-white;
+
+    &:hover:not(:disabled) {
+      border-color: $primary-color;
+    }
+
+    &:disabled {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+
+  .dropdown {
+    background-color: $bg-dark;
+    border-color: $border-color-dark;
+  }
+
+  .option {
+    color: $text-white;
+
+    &:hover,
+    &.optionHighlighted {
+      background-color: rgba(0, 112, 243, 0.2);
+    }
+
+    &.optionSelected {
+      background-color: rgba(0, 112, 243, 0.3);
+      color: $primary-color;
+    }
+  }
+
+  .toggleButton {
+    color: $text-light;
+
+    &:hover:not(:disabled) {
+      color: $text-white;
+    }
+  }
+
+  .addNewOption {
+    color: $primary-color;
+
+    &:hover,
+    &.optionHighlighted {
+      background-color: rgba(0, 112, 243, 0.2);
+      color: $primary-color;
+    }
+  }
+}
+

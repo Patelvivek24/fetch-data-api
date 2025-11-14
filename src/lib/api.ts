@@ -477,6 +477,213 @@ export const tableApi = {
       throw { message: 'An unexpected error occurred while updating the item' };
     }
   },
+
+  /**
+   * Create a new table item
+   */
+  async createTableItem(data: Omit<TableDataItem, 'id'>): Promise<TableDataItem> {
+    try {
+      const response = await apiClient.post<TableDataItem>('/tables', data);
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // Handle network errors
+        if (!error.response) {
+          const apiError: ApiError = {
+            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
+            errors: {},
+          };
+          throw apiError;
+        }
+
+        // Handle API errors
+        const apiError: ApiError = {
+          message: error.response?.data?.message ||
+            error.response?.data?.error ||
+            `Failed to create item (${error.response.status}). Please try again.`,
+          errors: error.response?.data?.errors,
+        };
+        throw apiError;
+      }
+      throw { message: 'An unexpected error occurred while creating the item' };
+    }
+  },
+};
+
+// Student Declaration Form API functions
+export interface StudentDeclarationFormData {
+  id?: string | number;
+  membershipNumber: string;
+  primaryMemberDetails: {
+    name: { title: string; firstName: string; lastName: string };
+    address: {
+      streetAddress: string;
+      city: string;
+      state: string;
+      postalCode: string;
+    };
+    birthDate: string;
+    email: string;
+    phone: {
+      homePhone: string;
+      workPhone: string;
+      mobile: string;
+    };
+  };
+}
+
+export const studentDeclarationApi = {
+  /**
+   * Fetch all student declaration forms
+   */
+  async getStudentDeclarationForms(): Promise<StudentDeclarationFormData[]> {
+    try {
+      const response = await apiClient.get<StudentDeclarationFormData[]>('/studentDeclarationForm');
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (!error.response) {
+          const apiError: ApiError = {
+            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
+            errors: {},
+          };
+          throw apiError;
+        }
+
+        const apiError: ApiError = {
+          message: error.response?.data?.message ||
+            error.response?.data?.error ||
+            `Failed to fetch student declaration forms (${error.response.status}). Please try again.`,
+          errors: error.response?.data?.errors,
+        };
+        throw apiError;
+      }
+      throw { message: 'An unexpected error occurred while fetching student declaration forms' };
+    }
+  },
+
+  /**
+   * Get available membership numbers
+   */
+  async getMembershipNumbers(): Promise<string[]> {
+    try {
+      const forms = await this.getStudentDeclarationForms();
+      return forms.map(form => form.membershipNumber);
+    } catch (error) {
+      // If API fails, return empty array or fallback to static list
+      console.warn('Failed to fetch membership numbers from API:', error);
+      return [];
+    }
+  },
+
+  /**
+   * Delete a student declaration form by id
+   */
+  async deleteStudentDeclarationForm(id: string | number): Promise<void> {
+    try {
+      await apiClient.delete(`/studentDeclarationForm/${id}`);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (!error.response) {
+          const apiError: ApiError = {
+            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
+            errors: {},
+          };
+          throw apiError;
+        }
+
+        const apiError: ApiError = {
+          message: error.response?.data?.message ||
+            error.response?.data?.error ||
+            `Failed to delete student declaration form (${error.response.status}). Please try again.`,
+          errors: error.response?.data?.errors,
+        };
+        throw apiError;
+      }
+      // Re-throw if it's already an ApiError
+      if (error && typeof error === 'object' && 'message' in error) {
+        throw error;
+      }
+      throw { message: 'An unexpected error occurred while deleting the student declaration form' };
+    }
+  },
+
+  /**
+   * Update a student declaration form by id
+   */
+  async updateStudentDeclarationForm(
+    id: string | number,
+    data: StudentDeclarationFormData
+  ): Promise<StudentDeclarationFormData> {
+    try {
+      const response = await apiClient.put<StudentDeclarationFormData>(
+        `/studentDeclarationForm/${id}`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (!error.response) {
+          const apiError: ApiError = {
+            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
+            errors: {},
+          };
+          throw apiError;
+        }
+
+        const apiError: ApiError = {
+          message: error.response?.data?.message ||
+            error.response?.data?.error ||
+            `Failed to update student declaration form (${error.response.status}). Please try again.`,
+          errors: error.response?.data?.errors,
+        };
+        throw apiError;
+      }
+      // Re-throw if it's already an ApiError
+      if (error && typeof error === 'object' && 'message' in error) {
+        throw error;
+      }
+      throw { message: 'An unexpected error occurred while updating the student declaration form' };
+    }
+  },
+
+  /**
+   * Create a new student declaration form
+   */
+  async createStudentDeclarationForm(
+    data: StudentDeclarationFormData
+  ): Promise<StudentDeclarationFormData> {
+    try {
+      const response = await apiClient.post<StudentDeclarationFormData>(
+        '/studentDeclarationForm',
+        data
+      );
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (!error.response) {
+          const apiError: ApiError = {
+            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
+            errors: {},
+          };
+          throw apiError;
+        }
+
+        const apiError: ApiError = {
+          message: error.response?.data?.message ||
+            error.response?.data?.error ||
+            `Failed to create student declaration form (${error.response.status}). Please try again.`,
+          errors: error.response?.data?.errors,
+        };
+        throw apiError;
+      }
+      // Re-throw if it's already an ApiError
+      if (error && typeof error === 'object' && 'message' in error) {
+        throw error;
+      }
+      throw { message: 'An unexpected error occurred while creating the student declaration form' };
+    }
+  },
 };
 
 export default apiClient;
