@@ -1,0 +1,334 @@
+@import '../../../styles/variables';
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $bg-dark;
+}
+
+.loadingContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-md;
+  background-color: $bg-dark;
+  
+  p {
+    color: $text-light;
+  }
+}
+
+.errorContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-lg;
+  padding: $spacing-xl;
+  background-color: $bg-dark;
+}
+
+.errorMessage {
+  font-size: 1.125rem;
+  color: $text-light;
+  text-align: center;
+}
+
+.header {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid $border-color-dark;
+  padding: $spacing-md $spacing-xl;
+  box-shadow: $shadow-sm;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.headerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $text-white;
+  margin: 0;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.pdfContainer {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: $spacing-xl;
+  overflow-y: auto;
+}
+
+.pdfContent {
+  max-width: 800px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: $radius-lg;
+  box-shadow: $shadow-md;
+  padding: $spacing-2xl;
+  margin: $spacing-xl 0;
+  border: 1px solid $border-color-dark;
+}
+
+.pdfHeader {
+  border-bottom: 2px solid $border-color-dark;
+  padding-bottom: $spacing-lg;
+  margin-bottom: $spacing-xl;
+  text-align: center;
+}
+
+.pdfTitle {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: $text-white;
+  margin: 0 0 $spacing-md 0;
+}
+
+.membershipNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  margin-top: $spacing-md;
+}
+
+.membershipLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $text-light;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.membershipValue {
+  font-size: 1rem;
+  font-weight: 700;
+  color: $primary-color;
+  font-family: 'Courier New', monospace;
+  text-decoration: underline;
+}
+
+.pdfBody {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xl;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+}
+
+.sectionTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $text-white;
+  margin: 0 0 $spacing-md 0;
+  padding: $spacing-sm $spacing-md;
+  background-color: rgba(0, 112, 243, 0.2);
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: $radius-sm;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-md $spacing-lg;
+}
+
+.infoRow {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  padding: 0;
+}
+
+.infoLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: $text-light;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: $spacing-xs;
+}
+
+.infoValue {
+  font-size: 0.9375rem;
+  font-weight: 400;
+  color: $text-white;
+  word-break: break-word;
+}
+
+.addressGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-md $spacing-lg;
+  margin-bottom: $spacing-md;
+}
+
+.addressRow {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  padding: 0;
+  
+  .infoLabel {
+    color: $text-light;
+  }
+  
+  .infoValue {
+    color: $text-white;
+  }
+}
+
+.fullAddress {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  padding: $spacing-md;
+  background-color: rgba(0, 112, 243, 0.15);
+  border-radius: $radius-md;
+  border: 1px solid rgba(0, 112, 243, 0.3);
+  margin-top: $spacing-md;
+  width: 100%;
+  
+  .infoLabel {
+    color: $text-light;
+  }
+  
+  .infoValue {
+    color: $text-white;
+  }
+}
+
+.phoneSection {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.phoneRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: $spacing-md;
+  padding: $spacing-md;
+  background-color: rgba(0, 112, 243, 0.15);
+  border-radius: $radius-md;
+  border: 1px solid rgba(0, 112, 243, 0.3);
+  
+  .infoLabel {
+    margin-bottom: 0;
+    color: $text-light;
+  }
+  
+  .infoValue {
+    text-align: right;
+    color: $text-white;
+  }
+}
+
+.pdfFooter {
+  margin-top: $spacing-2xl;
+  padding-top: $spacing-lg;
+  border-top: 2px solid $border-color-dark;
+  text-align: center;
+}
+
+.footerNote {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  
+  p {
+    font-size: 0.875rem;
+    color: $text-light;
+    margin: 0;
+    font-style: italic;
+  }
+}
+
+// Print styles
+@media print {
+  .header {
+    display: none;
+  }
+
+  .pdfContainer {
+    padding: 0;
+    margin: 0;
+  }
+
+  .pdfContent {
+    box-shadow: none;
+    border-radius: 0;
+    padding: $spacing-xl;
+    margin: 0;
+  }
+
+  .headerActions {
+    display: none;
+  }
+}
+
+// Dark mode - already applied as default, keeping for consistency
+@media (prefers-color-scheme: dark) {
+  // Styles are already applied as default dark theme
+}
+
+// Responsive
+@media (max-width: $breakpoint-sm) {
+  .headerContent {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerActions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .pdfContent {
+    padding: $spacing-lg;
+  }
+
+  .pdfTitle {
+    font-size: 1.5rem;
+  }
+
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .addressGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
