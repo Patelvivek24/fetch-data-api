@@ -139,13 +139,10 @@
   ],
   "studentDeclarationForm": [
     {
+      "id": "a91c",
       "membershipNumber": "STU-A81F2C",
       "primaryMemberDetails": {
-        "name": {
-          "title": "Mr",
-          "firstName": "John",
-          "lastName": "Walker"
-        },
+        "name": { "title": "Mr", "firstName": "John", "lastName": "Walker" },
         "address": {
           "streetAddress": "12 King Street",
           "city": "Sydney",
@@ -159,18 +156,13 @@
           "workPhone": "02 3333 4444",
           "mobile": "0401 111 222"
         }
-      },
-      "id": "1"
+      }
     },
     {
-      "id": "2",
+      "id": "b42f",
       "membershipNumber": "STU-B93E7A",
       "primaryMemberDetails": {
-        "name": {
-          "title": "Ms",
-          "firstName": "Emma",
-          "lastName": "Sharp"
-        },
+        "name": { "title": "Ms", "firstName": "Emma", "lastName": "Sharp" },
         "address": {
           "streetAddress": "45 Market Road",
           "city": "Melbourne",
@@ -187,14 +179,10 @@
       }
     },
     {
-      "id": "3",
+      "id": "c77a",
       "membershipNumber": "STU-C12D9F",
       "primaryMemberDetails": {
-        "name": {
-          "title": "Mrs",
-          "firstName": "Sophia",
-          "lastName": "Turner"
-        },
+        "name": { "title": "Mrs", "firstName": "Sophia", "lastName": "Turner" },
         "address": {
           "streetAddress": "89 River Lane",
           "city": "Brisbane",
@@ -211,14 +199,10 @@
       }
     },
     {
-      "id": "4",
+      "id": "d55e",
       "membershipNumber": "STU-D47B3E",
       "primaryMemberDetails": {
-        "name": {
-          "title": "Mr",
-          "firstName": "Liam",
-          "lastName": "Hughes"
-        },
+        "name": { "title": "Mr", "firstName": "Liam", "lastName": "Hughes" },
         "address": {
           "streetAddress": "32 Ocean Avenue",
           "city": "Perth",
@@ -235,14 +219,10 @@
       }
     },
     {
-      "id": "5",
+      "id": "e14b",
       "membershipNumber": "STU-E59C8A",
       "primaryMemberDetails": {
-        "name": {
-          "title": "Miss",
-          "firstName": "Ava",
-          "lastName": "Mitchell"
-        },
+        "name": { "title": "Miss", "firstName": "Ava", "lastName": "Mitchell" },
         "address": {
           "streetAddress": "14 Forest Hills",
           "city": "Adelaide",
@@ -259,14 +239,10 @@
       }
     },
     {
-      "id": "6",
+      "id": "f83d",
       "membershipNumber": "STU-F76E1D",
       "primaryMemberDetails": {
-        "name": {
-          "title": "Mr",
-          "firstName": "Ethan",
-          "lastName": "Reed"
-        },
+        "name": { "title": "Mr", "firstName": "Ethan", "lastName": "Reed" },
         "address": {
           "streetAddress": "77 Green Valley",
           "city": "Hobart",
@@ -283,14 +259,10 @@
       }
     },
     {
-      "id": "7",
+      "id": "g19e",
       "membershipNumber": "STU-G88B2F",
       "primaryMemberDetails": {
-        "name": {
-          "title": "Dr",
-          "firstName": "Mia",
-          "lastName": "Cole"
-        },
+        "name": { "title": "Dr", "firstName": "Mia", "lastName": "Cole" },
         "address": {
           "streetAddress": "26 Sunset Drive",
           "city": "Darwin",
@@ -307,14 +279,10 @@
       }
     },
     {
-      "id": "8",
+      "id": "h72f",
       "membershipNumber": "STU-H94A6C",
       "primaryMemberDetails": {
-        "name": {
-          "title": "Mr",
-          "firstName": "Noah",
-          "lastName": "Bennett"
-        },
+        "name": { "title": "Mr", "firstName": "Noah", "lastName": "Bennett" },
         "address": {
           "streetAddress": "51 Lakeside Road",
           "city": "Canberra",
@@ -331,14 +299,10 @@
       }
     },
     {
-      "id": "9",
+      "id": "i58b",
       "membershipNumber": "STU-J03D5E",
       "primaryMemberDetails": {
-        "name": {
-          "title": "Ms",
-          "firstName": "Lily",
-          "lastName": "Foster"
-        },
+        "name": { "title": "Ms", "firstName": "Lily", "lastName": "Foster" },
         "address": {
           "streetAddress": "90 North Street",
           "city": "Gold Coast",
@@ -355,28 +319,325 @@
       }
     },
     {
+      "id": "j84c",
       "membershipNumber": "STU-K71F9A",
       "primaryMemberDetails": {
-        "name": {
-          "title": "Mr",
-          "firstName": "James",
-          "lastName": "Parker"
-        },
+        "name": { "title": "Mr", "firstName": "James", "lastName": "Parker" },
         "address": {
           "streetAddress": "34 Harbor Point",
           "city": "Newcastle",
-          "state": "NJ",
+          "state": "NSW",
           "postalCode": "2300"
         },
-        "birthDate": "1991-06-11",
+        "birthDate": "11-06-1991",
         "email": "james.parker@example.com",
         "phone": {
           "homePhone": "02 3434 5656",
           "workPhone": "02 7878 8989",
           "mobile": "0499 111 222"
         }
-      },
-      "id": "82b2"
+      }
+    },
+    {
+      "id": "k11d",
+      "membershipNumber": "STU-L52G8Q",
+      "primaryMemberDetails": {
+        "name": { "title": "Ms", "firstName": "Emily", "lastName": "Grant" },
+        "address": {
+          "streetAddress": "21 Maple Street",
+          "city": "Wollongong",
+          "state": "NSW",
+          "postalCode": "2500"
+        },
+        "birthDate": "03-03-1997",
+        "email": "emily.grant@example.com",
+        "phone": {
+          "homePhone": "02 4141 5252",
+          "workPhone": "02 5656 6767",
+          "mobile": "0422 123 456"
+        }
+      }
+    },
+    {
+      "id": "l02e",
+      "membershipNumber": "STU-M93T5D",
+      "primaryMemberDetails": {
+        "name": { "title": "Mr", "firstName": "Oliver", "lastName": "Stone" },
+        "address": {
+          "streetAddress": "88 High Street",
+          "city": "Geelong",
+          "state": "VIC",
+          "postalCode": "3220"
+        },
+        "birthDate": "19-04-1996",
+        "email": "oliver.stone@example.com",
+        "phone": {
+          "homePhone": "03 2323 4545",
+          "workPhone": "03 5656 7878",
+          "mobile": "0419 222 333"
+        }
+      }
+    },
+    {
+      "id": "m92f",
+      "membershipNumber": "STU-N18H7P",
+      "primaryMemberDetails": {
+        "name": { "title": "Mrs", "firstName": "Charlotte", "lastName": "Hayes" },
+        "address": {
+          "streetAddress": "72 Oak Lane",
+          "city": "Cairns",
+          "state": "QLD",
+          "postalCode": "4870"
+        },
+        "birthDate": "10-07-1994",
+        "email": "charlotte.hayes@example.com",
+        "phone": {
+          "homePhone": "07 3434 5656",
+          "workPhone": "07 6767 8989",
+          "mobile": "0420 890 123"
+        }
+      }
+    },
+    {
+      "id": "n29b",
+      "membershipNumber": "STU-P44V9C",
+      "primaryMemberDetails": {
+        "name": { "title": "Mr", "firstName": "Henry", "lastName": "Brooks" },
+        "address": {
+          "streetAddress": "19 Willow Crescent",
+          "city": "Townsville",
+          "state": "QLD",
+          "postalCode": "4810"
+        },
+        "birthDate": "15-02-1993",
+        "email": "henry.brooks@example.com",
+        "phone": {
+          "homePhone": "07 1212 3434",
+          "workPhone": "07 4545 6767",
+          "mobile": "0433 321 654"
+        }
+      }
+    },
+    {
+      "id": "o67c",
+      "membershipNumber": "STU-Q15B3Z",
+      "primaryMemberDetails": {
+        "name": { "title": "Ms", "firstName": "Chloe", "lastName": "Dixon" },
+        "address": {
+          "streetAddress": "55 Park Ridge",
+          "city": "Bendigo",
+          "state": "VIC",
+          "postalCode": "3550"
+        },
+        "birthDate": "12-12-1998",
+        "email": "chloe.dixon@example.com",
+        "phone": {
+          "homePhone": "03 5656 6767",
+          "workPhone": "03 7878 9898",
+          "mobile": "0428 567 210"
+        }
+      }
+    },
+    {
+      "id": "p36d",
+      "membershipNumber": "STU-R33T6L",
+      "primaryMemberDetails": {
+        "name": { "title": "Mr", "firstName": "Jack", "lastName": "Harrison" },
+        "address": {
+          "streetAddress": "44 Mountain Road",
+          "city": "Darwin",
+          "state": "NT",
+          "postalCode": "0801"
+        },
+        "birthDate": "05-06-1995",
+        "email": "jack.harrison@example.com",
+        "phone": {
+          "homePhone": "08 2121 4343",
+          "workPhone": "08 5454 7676",
+          "mobile": "0431 987 654"
+        }
+      }
+    },
+    {
+      "id": "q49f",
+      "membershipNumber": "STU-S72L4H",
+      "primaryMemberDetails": {
+        "name": { "title": "Mrs", "firstName": "Zoe", "lastName": "Morgan" },
+        "address": {
+          "streetAddress": "12 Pine Street",
+          "city": "Hobart",
+          "state": "TAS",
+          "postalCode": "7005"
+        },
+        "birthDate": "08-03-1992",
+        "email": "zoe.morgan@example.com",
+        "phone": {
+          "homePhone": "03 1111 2222",
+          "workPhone": "03 3333 4444",
+          "mobile": "0429 654 321"
+        }
+      }
+    },
+    {
+      "id": "r55a",
+      "membershipNumber": "STU-T11X9A",
+      "primaryMemberDetails": {
+        "name": { "title": "Mr", "firstName": "Daniel", "lastName": "White" },
+        "address": {
+          "streetAddress": "88 River View",
+          "city": "Sydney",
+          "state": "NSW",
+          "postalCode": "2130"
+        },
+        "birthDate": "17-11-1994",
+        "email": "daniel.white@example.com",
+        "phone": {
+          "homePhone": "02 9898 2323",
+          "workPhone": "02 4545 6767",
+          "mobile": "0416 111 999"
+        }
+      }
+    },
+    {
+      "id": "s10c",
+      "membershipNumber": "STU-U47N2D",
+      "primaryMemberDetails": {
+        "name": { "title": "Ms", "firstName": "Grace", "lastName": "Barnes" },
+        "address": {
+          "streetAddress": "19 Elm Drive",
+          "city": "Newcastle",
+          "state": "NSW",
+          "postalCode": "2290"
+        },
+        "birthDate": "14-01-1997",
+        "email": "grace.barnes@example.com",
+        "phone": {
+          "homePhone": "02 4545 6767",
+          "workPhone": "02 6767 8989",
+          "mobile": "0417 999 888"
+        }
+      }
+    },
+    {
+      "id": "t28e",
+      "membershipNumber": "STU-V66H5P",
+      "primaryMemberDetails": {
+        "name": { "title": "Mr", "firstName": "Jacob", "lastName": "Lewis" },
+        "address": {
+          "streetAddress": "71 Stonewall Road",
+          "city": "Adelaide",
+          "state": "SA",
+          "postalCode": "5006"
+        },
+        "birthDate": "22-04-1993",
+        "email": "jacob.lewis@example.com",
+        "phone": {
+          "homePhone": "08 9999 8888",
+          "workPhone": "08 1212 3434",
+          "mobile": "0424 333 555"
+        }
+      }
+    },
+    {
+      "id": "u37b",
+      "membershipNumber": "STU-W21B8Q",
+      "primaryMemberDetails": {
+        "name": { "title": "Mrs", "firstName": "Hannah", "lastName": "Reed" },
+        "address": {
+          "streetAddress": "25 Garden Lane",
+          "city": "Canberra",
+          "state": "ACT",
+          "postalCode": "2601"
+        },
+        "birthDate": "03-09-1991",
+        "email": "hannah.reed@example.com",
+        "phone": {
+          "homePhone": "02 2323 4545",
+          "workPhone": "02 3434 5656",
+          "mobile": "0412 876 543"
+        }
+      }
+    },
+    {
+      "id": "v90f",
+      "membershipNumber": "STU-X94M1Z",
+      "primaryMemberDetails": {
+        "name": { "title": "Mr", "firstName": "Logan", "lastName": "Edwards" },
+        "address": {
+          "streetAddress": "33 Sunset Boulevard",
+          "city": "Melbourne",
+          "state": "VIC",
+          "postalCode": "3010"
+        },
+        "birthDate": "09-02-1998",
+        "email": "logan.edwards@example.com",
+        "phone": {
+          "homePhone": "03 9999 0000",
+          "workPhone": "03 2121 4343",
+          "mobile": "0415 654 987"
+        }
+      }
+    },
+    {
+      "id": "w11a",
+      "membershipNumber": "STU-Y48Q6L",
+      "primaryMemberDetails": {
+        "name": { "title": "Ms", "firstName": "Ella", "lastName": "Murray" },
+        "address": {
+          "streetAddress": "60 Bay View",
+          "city": "Perth",
+          "state": "WA",
+          "postalCode": "6010"
+        },
+        "birthDate": "30-10-1996",
+        "email": "ella.murray@example.com",
+        "phone": {
+          "homePhone": "08 4545 2323",
+          "workPhone": "08 6767 4545",
+          "mobile": "0430 555 999"
+        }
+      }
+    },
+    {
+      "id": "x34d",
+      "membershipNumber": "STU-Z72F3N",
+      "primaryMemberDetails": {
+        "name": { "title": "Mr", "firstName": "Adam", "lastName": "Cooper" },
+        "address": {
+          "streetAddress": "18 Riverbank Road",
+          "city": "Brisbane",
+          "state": "QLD",
+          "postalCode": "4101"
+        },
+        "birthDate": "16-05-1995",
+        "email": "adam.cooper@example.com",
+        "phone": {
+          "homePhone": "07 6767 8989",
+          "workPhone": "07 1111 5555",
+          "mobile": "0421 678 345"
+        }
+      }
+    },
+    {
+      "id": "y72c",
+      "membershipNumber": "STU-A27V5C",
+      "primaryMemberDetails": {
+        "name": { "title": "Mrs", "firstName": "Natalie", "lastName": "Clark" },
+        "address": {
+          "streetAddress": "77 Creekside Drive",
+          "city": "Sydney",
+          "state": "NSW",
+          "postalCode": "2760"
+        },
+        "birthDate": "01-08-1993",
+        "email": "natalie.clark@example.com",
+        "phone": {
+          "homePhone": "02 3232 5454",
+          "workPhone": "02 8787 5656",
+          "mobile": "0418 123 789"
+        }
+      }
     }
   ]
+  
 }

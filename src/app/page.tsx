@@ -10,6 +10,7 @@ import Modal from '@/components/Modal';
 import InputField from '@/components/InputField';
 import StudentDeclarationForm from '@/components/StudentDeclarationForm';
 import StudentDeclarationCard from '@/components/StudentDeclarationCard';
+import Pagination from '@/components/Pagination';
 import { tableApi, TableDataItem, studentDeclarationApi, StudentDeclarationFormData } from '@/lib/api';
 import styles from './page.module.scss';
 
@@ -671,121 +672,14 @@ export default function Home() {
                       />
                     ))}
                 </div>
-                {Math.ceil(studentDeclarations.length / cardsPerPage) > 1 && (
-                  <div className={styles.pagination}>
-                    <div className={styles.pageInfo}>
-                      Showing {(currentCardPage - 1) * cardsPerPage + 1} to{' '}
-                      {Math.min(currentCardPage * cardsPerPage, studentDeclarations.length)} of{' '}
-                      {studentDeclarations.length} entries
-                    </div>
-                    <div className={styles.paginationControls}>
-                      <button
-                        className={`${styles.pageButton}${currentCardPage === 1 ? ` ${styles.disabled}` : ''}`}
-                        onClick={() => setCurrentCardPage((prev) => Math.max(1, prev - 1))}
-                        disabled={currentCardPage === 1}
-                        aria-label="Previous page"
-                      >
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M15 18l-6-6 6-6" />
-                        </svg>
-                      </button>
-
-                      <div className={styles.pageNumbers}>
-                        {(() => {
-                          const totalPages = Math.ceil(studentDeclarations.length / cardsPerPage);
-                          const pages: (number | string)[] = [];
-                          const maxVisible = 5;
-
-                          if (totalPages <= maxVisible) {
-                            for (let i = 1; i <= totalPages; i++) {
-                              pages.push(i);
-                            }
-                          } else {
-                            if (currentCardPage <= 3) {
-                              for (let i = 1; i <= 4; i++) {
-                                pages.push(i);
-                              }
-                              pages.push('ellipsis');
-                              pages.push(totalPages);
-                            } else if (currentCardPage >= totalPages - 2) {
-                              pages.push(1);
-                              pages.push('ellipsis');
-                              for (let i = totalPages - 3; i <= totalPages; i++) {
-                                pages.push(i);
-                              }
-                            } else {
-                              pages.push(1);
-                              pages.push('ellipsis');
-                              for (let i = currentCardPage - 1; i <= currentCardPage + 1; i++) {
-                                pages.push(i);
-                              }
-                              pages.push('ellipsis');
-                              pages.push(totalPages);
-                            }
-                          }
-
-                          return pages.map((page, index) => {
-                            if (page === 'ellipsis') {
-                              return (
-                                <span key={`ellipsis-${index}`} className={styles.ellipsis}>
-                                  ...
-                                </span>
-                              );
-                            }
-                            return (
-                              <button
-                                key={page}
-                                className={`${styles.pageNumber}${currentCardPage === page ? ` ${styles.active}` : ''}`}
-                                onClick={() => setCurrentCardPage(page as number)}
-                                aria-label={`Go to page ${page}`}
-                                aria-current={currentCardPage === page ? 'page' : undefined}
-                              >
-                                {page}
-                              </button>
-                            );
-                          });
-                        })()}
-                      </div>
-
-                      <button
-                        className={`${styles.pageButton}${
-                          currentCardPage >= Math.ceil(studentDeclarations.length / cardsPerPage)
-                            ? ` ${styles.disabled}`
-                            : ''
-                        }`}
-                        onClick={() =>
-                          setCurrentCardPage((prev) =>
-                            Math.min(Math.ceil(studentDeclarations.length / cardsPerPage), prev + 1)
-                          )
-                        }
-                        disabled={currentCardPage >= Math.ceil(studentDeclarations.length / cardsPerPage)}
-                        aria-label="Next page"
-                      >
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <path d="M9 18l6-6-6-6" />
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                )}
+                <Pagination
+                  currentPage={currentCardPage}
+                  totalPages={Math.ceil(studentDeclarations.length / cardsPerPage)}
+                  totalItems={studentDeclarations.length}
+                  itemsPerPage={cardsPerPage}
+                  onPageChange={setCurrentCardPage}
+                  showPageInfo={true}
+                />
               </>
             )}
           </div>
