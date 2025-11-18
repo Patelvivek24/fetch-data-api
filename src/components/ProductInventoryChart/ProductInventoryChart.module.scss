@@ -1,0 +1,57 @@
+@import '../../styles/variables';
+
+.chartContainer {
+  background-color: $bg-primary;
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  box-shadow: $shadow-md;
+  margin-bottom: $spacing-xl;
+  width: 100%;
+}
+
+.chartTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $text-primary;
+  margin: 0 0 $spacing-lg 0;
+}
+
+.tooltip {
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  box-shadow: $shadow-lg;
+}
+
+.tooltipLabel {
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 $spacing-xs 0;
+  font-size: 0.875rem;
+}
+
+.tooltipItem {
+  display: flex;
+  justify-content: space-between;
+  gap: $spacing-md;
+  margin: $spacing-xs 0;
+  font-size: 0.8125rem;
+  color: #e5e7eb;
+
+  span:first-child {
+    color: #9ca3af;
+  }
+
+  span:last-child {
+    color: #fff;
+    font-weight: 500;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .chartTitle {
+    color: $text-white;
+  }
+}
+

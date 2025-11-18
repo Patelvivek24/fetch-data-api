@@ -686,5 +686,162 @@ export const studentDeclarationApi = {
   },
 };
 
+// Marketing Statistics API functions
+export interface MarketingStatistic {
+  id?: string;
+  productId: string;
+  productName: string;
+  totalStock: number;
+  availableStock: number;
+  soldQuantity: number;
+  date: string;
+}
+
+export const marketingStatisticsApi = {
+  /**
+   * Fetch all marketing statistics
+   */
+  async getMarketingStatistics(): Promise<MarketingStatistic[]> {
+    try {
+      const response = await apiClient.get<MarketingStatistic[]>('/marketingStatistics');
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (!error.response) {
+          const apiError: ApiError = {
+            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
+            errors: {},
+          };
+          throw apiError;
+        }
+
+        const apiError: ApiError = {
+          message: error.response?.data?.message ||
+            error.response?.data?.error ||
+            `Failed to fetch marketing statistics (${error.response.status}). Please try again.`,
+          errors: error.response?.data?.errors,
+        };
+        throw apiError;
+      }
+      throw { message: 'An unexpected error occurred while fetching marketing statistics' };
+    }
+  },
+
+  /**
+   * Get a single marketing statistic by id
+   */
+  async getMarketingStatistic(id: string): Promise<MarketingStatistic> {
+    try {
+      const response = await apiClient.get<MarketingStatistic>(`/marketingStatistics/${id}`);
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (!error.response) {
+          const apiError: ApiError = {
+            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
+            errors: {},
+          };
+          throw apiError;
+        }
+
+        const apiError: ApiError = {
+          message: error.response?.data?.message ||
+            error.response?.data?.error ||
+            `Failed to fetch marketing statistic (${error.response.status}). Please try again.`,
+          errors: error.response?.data?.errors,
+        };
+        throw apiError;
+      }
+      throw { message: 'An unexpected error occurred while fetching the marketing statistic' };
+    }
+  },
+
+  /**
+   * Create a new marketing statistic
+   */
+  async createMarketingStatistic(data: Omit<MarketingStatistic, 'id'>): Promise<MarketingStatistic> {
+    try {
+      const response = await apiClient.post<MarketingStatistic>('/marketingStatistics', data);
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (!error.response) {
+          const apiError: ApiError = {
+            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
+            errors: {},
+          };
+          throw apiError;
+        }
+
+        const apiError: ApiError = {
+          message: error.response?.data?.message ||
+            error.response?.data?.error ||
+            `Failed to create marketing statistic (${error.response.status}). Please try again.`,
+          errors: error.response?.data?.errors,
+        };
+        throw apiError;
+      }
+      throw { message: 'An unexpected error occurred while creating the marketing statistic' };
+    }
+  },
+
+  /**
+   * Update a marketing statistic by id
+   */
+  async updateMarketingStatistic(id: string, data: Partial<MarketingStatistic>): Promise<MarketingStatistic> {
+    try {
+      const response = await apiClient.put<MarketingStatistic>(`/marketingStatistics/${id}`, data);
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (!error.response) {
+          const apiError: ApiError = {
+            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
+            errors: {},
+          };
+          throw apiError;
+        }
+
+        const apiError: ApiError = {
+          message: error.response?.data?.message ||
+            error.response?.data?.error ||
+            `Failed to update marketing statistic (${error.response.status}). Please try again.`,
+          errors: error.response?.data?.errors,
+        };
+        throw apiError;
+      }
+      throw { message: 'An unexpected error occurred while updating the marketing statistic' };
+    }
+  },
+
+  /**
+   * Delete a marketing statistic by id
+   */
+  async deleteMarketingStatistic(id: string): Promise<void> {
+    try {
+      await apiClient.delete(`/marketingStatistics/${id}`);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (!error.response) {
+          const apiError: ApiError = {
+            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
+            errors: {},
+          };
+          throw apiError;
+        }
+
+        const apiError: ApiError = {
+          message: error.response?.data?.message ||
+            error.response?.data?.error ||
+            `Failed to delete marketing statistic (${error.response.status}). Please try again.`,
+          errors: error.response?.data?.errors,
+        };
+        throw apiError;
+      }
+      throw { message: 'An unexpected error occurred while deleting the marketing statistic' };
+    }
+  },
+};
+
 export default apiClient;
 

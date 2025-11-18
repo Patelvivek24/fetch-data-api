@@ -7,11 +7,12 @@
 }
 
 .tableContainer {
-  overflow-x: auto;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   border-radius: $radius-md;
   background-color: $bg-primary;
   border: 1px solid $border-color;
+  width: 100%;
 }
 
 .table {
@@ -19,13 +20,14 @@
   border-collapse: collapse;
   font-size: 0.9375rem;
   background-color: $bg-primary;
+  table-layout: fixed;
 }
 
 .headerCell {
-  padding: $spacing-lg $spacing-xl;
+  padding: $spacing-md $spacing-lg;
   text-align: left;
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: $text-secondary;
@@ -35,28 +37,33 @@
   top: 0;
   z-index: 1;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   &:first-child {
-    padding-left: $spacing-xl;
+    padding-left: $spacing-lg;
   }
 
   &:last-child {
-    padding-right: $spacing-xl;
+    padding-right: $spacing-lg;
   }
 }
 
 .cell {
-  padding: $spacing-lg $spacing-xl;
+  padding: $spacing-md $spacing-lg;
   color: $text-primary;
   border-bottom: 1px solid $border-color;
   transition: background-color $transition-fast;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
 
   &:first-child {
-    padding-left: $spacing-xl;
+    padding-left: $spacing-lg;
   }
 
   &:last-child {
-    padding-right: $spacing-xl;
+    padding-right: $spacing-lg;
   }
 }
 

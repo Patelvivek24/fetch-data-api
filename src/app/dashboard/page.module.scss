@@ -24,11 +24,45 @@
   gap: $spacing-md;
 }
 
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xl;
+  flex-wrap: wrap;
+}
+
 .logo {
   font-size: 1.5rem;
   font-weight: 700;
   color: $text-primary;
   margin: 0;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.navLink {
+  padding: $spacing-sm $spacing-md;
+  color: $text-secondary;
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border-radius: $radius-md;
+  transition: all $transition-base;
+
+  &:hover {
+    color: $primary-color;
+    background-color: $primary-light;
+  }
+
+  &.active {
+    color: $primary-color;
+    background-color: $primary-light;
+    font-weight: 600;
+  }
 }
 
 .headerActions {
@@ -198,6 +232,20 @@
     color: $text-light;
   }
 
+  .navLink {
+    color: $text-light;
+
+    &:hover {
+      color: $primary-color;
+      background-color: rgba(0, 112, 243, 0.15);
+    }
+
+    &.active {
+      color: $primary-color;
+      background-color: rgba(0, 112, 243, 0.15);
+    }
+  }
+
   .heroTitle {
     color: $text-white;
   }
@@ -244,6 +292,17 @@
   .headerContent {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .headerLeft {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-md;
+  }
+
+  .nav {
+    width: 100%;
+    flex-wrap: wrap;
   }
 
   .headerActions {

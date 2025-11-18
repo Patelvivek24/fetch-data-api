@@ -1,0 +1,512 @@
+@import '../../styles/variables';
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $bg-secondary;
+}
+
+.header {
+  background-color: $bg-primary;
+  border-bottom: 1px solid $border-color;
+  padding: $spacing-md $spacing-xl;
+  box-shadow: $shadow-sm;
+}
+
+.headerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xl;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $text-primary;
+  margin: 0;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.navLink {
+  padding: $spacing-sm $spacing-md;
+  color: $text-secondary;
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border-radius: $radius-md;
+  transition: all $transition-base;
+
+  &:hover {
+    color: $primary-color;
+    background-color: $primary-light;
+  }
+
+  &.active {
+    color: $primary-color;
+    background-color: $primary-light;
+    font-weight: 600;
+  }
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.welcomeText {
+  font-size: 0.875rem;
+  color: $text-secondary;
+  font-weight: 500;
+}
+
+.main {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: $spacing-2xl $spacing-xl;
+  overflow-x: hidden;
+}
+
+.hero {
+  text-align: center;
+  // margin-bottom: $spacing-2xl;
+  padding: $spacing-2xl 0;
+}
+
+.heroTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  color: $text-primary;
+  margin: 0 0 $spacing-md 0;
+  line-height: 1.2;
+}
+
+.heroSubtitle {
+  font-size: 1.25rem;
+  color: $text-secondary;
+  margin: 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.filtersSection {
+  margin-bottom: $spacing-2xl;
+  width: 100%;
+}
+
+.filtersContainer {
+  display: flex;
+  gap: $spacing-lg;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  background-color: $bg-primary;
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-md;
+}
+
+.clearFiltersButton {
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.summaryCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: $spacing-lg;
+  margin-bottom: $spacing-2xl;
+}
+
+.summaryCard {
+  background-color: $bg-primary;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-md;
+  text-align: center;
+}
+
+.summaryLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: $spacing-sm;
+}
+
+.summaryValue {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: $primary-color;
+}
+
+.chartSection {
+  margin-top: $spacing-xl;
+  width: 100%;
+}
+
+.tableSection {
+  margin-top: $spacing-xl;
+  width: 100%;
+  overflow: hidden;
+
+  .card {
+    padding: $spacing-lg;
+    overflow: hidden;
+  }
+}
+
+.card {
+  background-color: $bg-primary;
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  box-shadow: $shadow-md;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $text-primary;
+  margin: 0 0 $spacing-lg 0;
+}
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 112, 243, 0.3);
+  border-top-color: $primary-color;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: $bg-dark;
+  }
+
+  .header {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-bottom-color: $border-color-dark;
+  }
+
+  .card,
+  .summaryCard {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .logo {
+    color: $text-white;
+  }
+
+  .welcomeText {
+    color: $text-light;
+  }
+
+  .heroTitle {
+    color: $text-white;
+  }
+
+  .heroSubtitle {
+    color: $text-light;
+  }
+
+  .cardTitle {
+    color: $text-white;
+  }
+
+  .filtersContainer {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .navLink {
+    color: $text-light;
+
+    &:hover {
+      color: $primary-color;
+      background-color: rgba(0, 112, 243, 0.15);
+    }
+
+    &.active {
+      color: $primary-color;
+      background-color: rgba(0, 112, 243, 0.15);
+    }
+  }
+
+  .summaryLabel {
+    color: $text-light;
+  }
+
+  .summaryValue {
+    color: $primary-color;
+  }
+
+  .errorMessage {
+    background-color: rgba(220, 53, 69, 0.2);
+    border-color: rgba(220, 53, 69, 0.4);
+    color: #ff6b6b;
+  }
+
+  .editButton {
+    color: $primary-color;
+    border-color: $primary-color;
+
+    &:hover {
+      background-color: rgba(0, 112, 243, 0.15);
+      border-color: $primary-hover;
+      color: $primary-hover;
+    }
+  }
+
+  .deleteButton {
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+
+    &:hover {
+      background-color: rgba(255, 107, 107, 0.15);
+      border-color: #ff6b6b;
+      color: #ff6b6b;
+    }
+  }
+}
+
+.actionButtons {
+  display: flex;
+  gap: $spacing-xs;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.editButton,
+.deleteButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid $border-color;
+  background-color: $bg-primary;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: all $transition-base;
+  color: $text-primary;
+  flex-shrink: 0;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: $shadow-sm;
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  svg {
+    display: block;
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.editButton {
+  color: $primary-color;
+  border-color: $primary-color;
+
+  &:hover {
+    background-color: $primary-light;
+    border-color: $primary-hover;
+    color: $primary-hover;
+  }
+}
+
+.deleteButton {
+  color: #dc3545;
+  border-color: #dc3545;
+
+  &:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-color: #dc3545;
+    color: #dc3545;
+  }
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-lg;
+  flex-wrap: wrap;
+  gap: $spacing-md;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-md;
+}
+
+.formActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid $border-color;
+}
+
+.deleteModalContent {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.deleteModalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-md;
+}
+
+.errorMessage {
+  background-color: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  margin-bottom: $spacing-lg;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.errorClose {
+  background: none;
+  border: none;
+  color: #c33;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .main {
+    padding: $spacing-xl $spacing-md;
+  }
+
+  .header {
+    padding: $spacing-md;
+  }
+
+  .headerContent {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .headerLeft {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-md;
+  }
+
+  .nav {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .headerActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.125rem;
+  }
+
+  .summaryCards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-md;
+  }
+
+  .tableSection {
+    margin-top: $spacing-lg;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .actionButtons {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filtersContainer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: $spacing-md;
+  }
+
+  .clearFiltersButton {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+

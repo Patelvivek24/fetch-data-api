@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import Button from '@/components/Button';
 import styles from './page.module.scss';
@@ -36,7 +37,17 @@ export default function Dashboard() {
     <div className={styles.container}>
       <header className={styles.header}>
         <div className={styles.headerContent}>
-          <h1 className={styles.logo}>Dashboard</h1>
+          <div className={styles.headerLeft}>
+            <h1 className={styles.logo}>Dashboard</h1>
+            <nav className={styles.nav}>
+              <Link href="/" className={styles.navLink}>
+                Home
+              </Link>
+              <Link href="/data" className={styles.navLink}>
+                Data
+              </Link>
+            </nav>
+          </div>
           <div className={styles.headerActions}>
             <span className={styles.welcomeText}>Welcome, {user?.name}!</span>
             <Button onClick={handleLogout} variant="outline">
