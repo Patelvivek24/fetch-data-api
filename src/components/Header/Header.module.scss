@@ -1,0 +1,289 @@
+@import '../../styles/variables';
+
+.header {
+  background-color: #1a1a1a;
+  padding: $spacing-md $spacing-xl;
+  position: sticky;
+  top: 0;
+  z-index: $z-sticky;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.headerContent {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $spacing-xl;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $text-white;
+  text-decoration: none;
+  margin: 0;
+  transition: opacity $transition-base;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: $spacing-lg;
+  flex: 1;
+  justify-content: center;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: $spacing-sm $spacing-md;
+  color: $text-white;
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: opacity $transition-base;
+  position: relative;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.caret {
+  width: 12px;
+  height: 12px;
+  color: currentColor;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: $spacing-xs;
+  background-color: #2a2a2a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: $radius-md;
+  padding: $spacing-xs 0;
+  min-width: 180px;
+  box-shadow: $shadow-lg;
+  z-index: $z-dropdown;
+}
+
+.dropdownItem {
+  display: block;
+  padding: $spacing-sm $spacing-md;
+  color: $text-white;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color $transition-base;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.welcomeText {
+  color: #9ca3af;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  padding: $spacing-sm $spacing-md;
+}
+
+.loginLink {
+  color: $text-white;
+  text-decoration: none;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  padding: $spacing-sm $spacing-md;
+  transition: opacity $transition-base;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.logoutButton {
+  border-color: $primary-color !important;
+  color: $primary-color !important;
+  background-color: transparent !important;
+  padding: $spacing-sm $spacing-lg !important;
+  font-weight: 500 !important;
+
+  &:hover {
+    background-color: rgba(0, 112, 243, 0.1) !important;
+    border-color: $primary-color !important;
+    color: $primary-color !important;
+  }
+}
+
+.signUpButton {
+  border-color: $text-white !important;
+  color: $text-white !important;
+  background-color: transparent !important;
+  padding: $spacing-sm $spacing-lg !important;
+  font-weight: 500 !important;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-color: $text-white !important;
+    color: $text-white !important;
+  }
+}
+
+// Mobile menu button
+.mobileMenuButton {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: $spacing-xs;
+  color: $text-white;
+  align-items: center;
+  justify-content: center;
+  z-index: $z-sticky + 1;
+}
+
+.mobileMenuIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+// Responsive design
+@media (max-width: $breakpoint-md) {
+  .headerContent {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  .headerLeft {
+    flex: 1;
+    justify-content: space-between;
+  }
+
+  .mobileMenuButton {
+    display: flex;
+  }
+
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.95);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 5rem $spacing-xl $spacing-xl;
+    gap: $spacing-lg;
+    z-index: $z-modal;
+    transform: translateX(-100%);
+    transition: transform $transition-base;
+    overflow-y: auto;
+
+    &.navOpen {
+      transform: translateX(0);
+    }
+  }
+
+  .navLink {
+    width: 100%;
+    padding: $spacing-md;
+    font-size: 1.125rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .dropdown {
+    width: 100%;
+
+    .navLink {
+      width: 100%;
+    }
+  }
+
+  .dropdownMenu {
+    position: static;
+    width: 100%;
+    margin-top: $spacing-sm;
+    margin-left: $spacing-md;
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .headerActions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.95);
+    padding: $spacing-lg $spacing-xl;
+    flex-direction: column;
+    gap: $spacing-md;
+    z-index: $z-modal;
+    transform: translateX(-100%);
+    transition: transform $transition-base;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+    &.headerActionsOpen {
+      transform: translateX(0);
+    }
+  }
+
+  .welcomeText {
+    width: 100%;
+    text-align: center;
+    padding: $spacing-sm 0;
+  }
+
+  .logoutButton,
+  .signUpButton {
+    width: 100%;
+  }
+
+  .loginLink {
+    width: 100%;
+    text-align: center;
+    padding: $spacing-md;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: $radius-md;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .header {
+    padding: $spacing-sm $spacing-md;
+  }
+
+  .headerContent {
+    gap: $spacing-sm;
+  }
+
+  .logo {
+    font-size: 1.25rem;
+  }
+}
+

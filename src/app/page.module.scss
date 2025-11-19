@@ -87,7 +87,6 @@
 
 .hero {
   text-align: center;
-  // margin-bottom: $spacing-2xl;
   padding: $spacing-2xl 0;
 }
 
@@ -291,6 +290,7 @@
   gap: $spacing-sm;
 }
 
+.viewButton,
 .editButton,
 .deleteButton {
   display: inline-flex;
@@ -317,6 +317,17 @@
 
   svg {
     display: block;
+  }
+}
+
+.viewButton {
+  color: $primary-color;
+  border-color: $primary-color;
+
+  &:hover {
+    background-color: $primary-light;
+    border-color: $primary-hover;
+    color: $primary-hover;
   }
 }
 
@@ -459,6 +470,7 @@
     }
   }
 
+  .viewButton,
   .editButton,
   .deleteButton {
     background-color: rgba(255, 255, 255, 0.05);
@@ -467,6 +479,17 @@
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  .viewButton {
+    color: $primary-color;
+    border-color: $primary-color;
+
+    &:hover {
+      background-color: rgba(0, 112, 243, 0.15);
+      border-color: $primary-hover;
+      color: $primary-hover;
     }
   }
 
@@ -493,38 +516,13 @@
   }
 }
 
-@media (max-width: $breakpoint-sm) {
+@media (max-width: $breakpoint-md) {
   .main {
     padding: $spacing-xl $spacing-md;
   }
 
-  .header {
-    padding: $spacing-md;
-  }
-
-  .headerContent {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .headerLeft {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: $spacing-md;
-  }
-
-  .nav {
-    width: 100%;
-    flex-wrap: wrap;
-  }
-
-  .headerActions {
-    width: 100%;
-    justify-content: space-between;
-  }
-
   .heroTitle {
-    font-size: 2rem;
+    font-size: 2.25rem;
   }
 
   .heroSubtitle {
@@ -533,9 +531,50 @@
 
   .content {
     grid-template-columns: 1fr;
+    gap: $spacing-lg;
+  }
+
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-lg;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .main {
+    padding: $spacing-lg $spacing-md;
+  }
+
+  .hero {
+    padding: $spacing-xl 0;
+  }
+
+  .heroTitle {
+    font-size: 1.75rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+
+  .card {
+    padding: $spacing-lg;
+  }
+
+  .cardTitle {
+    font-size: 1.25rem;
   }
 
   .tableSection {
+    margin-top: $spacing-lg;
+  }
+
+  .formSection {
     margin-top: $spacing-lg;
   }
 
@@ -547,7 +586,6 @@
     grid-template-columns: 1fr;
     gap: $spacing-md;
   }
-
 }
 
 .tableHeader {
@@ -679,6 +717,220 @@
 
     button {
       width: 100%;
+    }
+  }
+}
+
+.customerDetails {
+  padding: $spacing-md 0;
+}
+
+.purchasesList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: $spacing-md;
+}
+
+.purchaseItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-sm $spacing-md;
+  background-color: $bg-secondary;
+  border-radius: $radius-sm;
+  font-size: 0.875rem;
+
+  span {
+    color: $text-primary;
+  }
+}
+
+.deleteModalContent {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.deleteModalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-md;
+}
+
+@media (prefers-color-scheme: dark) {
+  .purchaseItem {
+    background-color: rgba(255, 255, 255, 0.05);
+
+    span {
+      color: $text-white;
+    }
+  }
+}
+
+.purchaseSection {
+  margin-top: $spacing-xl;
+  padding-top: $spacing-xl;
+  border-top: 1px solid $border-color;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: $text-primary;
+  margin: 0 0 $spacing-lg 0;
+}
+
+.purchaseForm {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: $spacing-md;
+  align-items: flex-end;
+  margin-bottom: $spacing-lg;
+}
+
+.purchaseFormActions {
+  display: flex;
+  gap: $spacing-sm;
+  align-items: center;
+}
+
+.purchasesListContainer {
+  margin-top: $spacing-lg;
+}
+
+.purchasesListTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: $text-primary;
+  margin: 0 0 $spacing-md 0;
+}
+
+.purchaseItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-lg;
+  background-color: $bg-primary;
+  border: 1px solid $border-color;
+  border-radius: $radius-lg;
+  margin-bottom: $spacing-md;
+  gap: $spacing-lg;
+  transition: all $transition-base;
+  box-shadow: $shadow-sm;
+
+  &:hover {
+    box-shadow: $shadow-md;
+    border-color: $primary-color;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.purchaseItemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  flex: 1;
+  min-width: 0;
+}
+
+.purchaseProductName {
+  font-weight: 600;
+  color: $text-primary;
+  font-size: 1rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.purchaseDetails {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  font-size: 0.875rem;
+  flex-wrap: wrap;
+}
+
+.purchaseQuantity {
+  color: $text-secondary;
+  font-weight: 500;
+}
+
+.purchaseAmount {
+  color: $primary-color;
+  font-weight: 600;
+  font-size: 0.9375rem;
+}
+
+.purchaseItemActions {
+  display: flex;
+  gap: $spacing-xs;
+  align-items: center;
+}
+
+.totalSpent {
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1px solid $border-color;
+  text-align: right;
+  font-size: 1rem;
+  color: $text-primary;
+}
+
+@media (prefers-color-scheme: dark) {
+  .sectionTitle,
+  .purchasesListTitle {
+    color: $text-white;
+  }
+
+  .purchaseItem {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+
+    &:hover {
+      border-color: $primary-color;
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  .purchaseProductName {
+    color: $text-white;
+  }
+
+  .purchaseQuantity {
+    color: $text-light;
+  }
+
+  .purchaseAmount {
+    color: $primary-color;
+  }
+
+  .totalSpent {
+    color: $text-white;
+  }
+
+  .purchaseSection {
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .totalSpent {
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .purchaseForm {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+
+  .purchaseFormActions {
+    width: 100%;
+    
+    button {
+      flex: 1;
     }
   }
 }

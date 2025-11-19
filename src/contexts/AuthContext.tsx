@@ -35,7 +35,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setUser(currentUser);
         }
       } catch (error) {
-        console.error('Error initializing auth:', error);
         authApi.logout();
       } finally {
         setIsLoading(false);

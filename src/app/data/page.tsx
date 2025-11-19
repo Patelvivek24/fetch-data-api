@@ -2,20 +2,20 @@
 
 import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import Button from '@/components/Button';
+import Header from '@/components/Header';
 import Table, { TableColumn } from '@/components/Table';
 import Modal from '@/components/Modal';
 import InputField from '@/components/InputField';
 import Select from '@/components/Select';
-import { marketingStatisticsApi, MarketingStatistic, ApiError } from '@/lib/api';
+import { marketingStatisticsApi, MarketingStatistic, ApiError, customersApi, Customer } from '@/lib/api';
 import ProductInventoryChart from '@/components/ProductInventoryChart';
 import styles from './page.module.scss';
 
 export default function DataPage() {
   const router = useRouter();
-  const { isAuthenticated, isLoading, user, logout } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   const [marketingData, setMarketingData] = useState<MarketingStatistic[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -35,6 +35,9 @@ export default function DataPage() {
   const [submitting, setSubmitting] = useState(false);
   const [selectedYear, setSelectedYear] = useState<string>('');
   const [selectedProductName, setSelectedProductName] = useState<string>('');
+  const [isBreakdownModalOpen, setIsBreakdownModalOpen] = useState(false);
+  const [breakdownProduct, setBreakdownProduct] = useState<MarketingStatistic | null>(null);
+  const [customers, setCustomers] = useState<Customer[]>([]);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -45,8 +48,18 @@ export default function DataPage() {
   useEffect(() => {
     if (isAuthenticated) {
       fetchMarketingData();
+      fetchCustomers();
     }
   }, [isAuthenticated]);
+
+  const fetchCustomers = async () => {
+    try {
+      const data = await customersApi.getCustomers();
+      setCustomers(data);
+    } catch (error) {
+      console.error('Failed to fetch customers:', error);
+    }
+  };
 
   const fetchMarketingData = async () => {
     try {
@@ -57,14 +70,9 @@ export default function DataPage() {
     } catch (err) {
       const apiError = err as ApiError;
       setError(apiError.message || 'Failed to fetch marketing statistics');
-      console.error('Error fetching marketing data:', err);
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleLogout = () => {
-    logout();
   };
 
   const handleAddNew = () => {
@@ -102,6 +110,77 @@ export default function DataPage() {
     setIsDeleteModalOpen(true);
   };
 
+  const handleViewBreakdown = (item: MarketingStatistic) => {
+    setBreakdownProduct(item);
+    setIsBreakdownModalOpen(true);
+  };
+
+  const getPurchaseBreakdown = (productId: string) => {
+    const breakdown: Array<{ customerName: string; quantity: number; purchaseDate: string }> = [];
+    
+    customers.forEach(customer => {
+      if (customer.purchases && customer.purchases.length > 0) {
+        customer.purchases.forEach(purchase => {
+          if (purchase.productId === productId) {
+            breakdown.push({
+              customerName: customer.name,
+              quantity: purchase.quantity,
+              purchaseDate: purchase.purchaseDate,
+            });
+          }
+        });
+      }
+    });
+
+    return breakdown.sort((a, b) => new Date(b.purchaseDate).getTime() - new Date(a.purchaseDate).getTime());
+  };
+
+  const syncSoldQuantities = async () => {
+    try {
+      setSubmitting(true);
+      setError(null);
+
+      // Calculate sold quantities from customer purchases for each product
+      const updates: Array<{ item: MarketingStatistic; soldQuantity: number; availableStock: number }> = [];
+
+      marketingData.forEach((item) => {
+        const breakdown = getPurchaseBreakdown(item.productId);
+        const calculatedSoldQuantity = breakdown.reduce((sum, purchase) => sum + purchase.quantity, 0);
+        
+        // Calculate new availableStock: totalStock - soldQuantity
+        const newAvailableStock = Math.max(0, item.totalStock - calculatedSoldQuantity);
+        
+        updates.push({
+          item,
+          soldQuantity: calculatedSoldQuantity,
+          availableStock: newAvailableStock,
+        });
+      });
+
+      // Update all items
+      await Promise.all(
+        updates.map((update) =>
+          marketingStatisticsApi.updateMarketingStatistic(update.item.id, {
+            productId: update.item.productId,
+            productName: update.item.productName,
+            totalStock: update.item.totalStock,
+            availableStock: update.availableStock,
+            soldQuantity: update.soldQuantity,
+            date: update.item.date,
+          })
+        )
+      );
+
+      // Refresh the data
+      await fetchMarketingData();
+    } catch (err) {
+      const apiError = err as ApiError;
+      setError(apiError.message || 'Failed to sync sold quantities');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   const confirmDelete = async () => {
     if (!deletingItem || !deletingItem.id) return;
 
@@ -114,7 +193,6 @@ export default function DataPage() {
     } catch (err) {
       const apiError = err as ApiError;
       setError(apiError.message || 'Failed to delete marketing statistic');
-      console.error('Error deleting marketing data:', err);
     } finally {
       setSubmitting(false);
     }
@@ -183,7 +261,6 @@ export default function DataPage() {
     } catch (err) {
       const apiError = err as ApiError;
       setError(apiError.message || 'Failed to save marketing statistic');
-      console.error('Error saving marketing data:', err);
     } finally {
       setSubmitting(false);
     }
@@ -269,7 +346,7 @@ export default function DataPage() {
     {
       key: 'actions',
       header: 'Actions',
-      width: '10%',
+      width: '12%',
       render: (_, row) => {
         const rowData = row as MarketingStatistic;
         return (
@@ -390,27 +467,7 @@ export default function DataPage() {
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <div className={styles.headerContent}>
-          <div className={styles.headerLeft}>
-            <h1 className={styles.logo}>Marketing Data</h1>
-            <nav className={styles.nav}>
-              <Link href="/" className={styles.navLink}>
-                Home
-              </Link>
-              <Link href="/data" className={`${styles.navLink} ${styles.active}`}>
-                Data
-              </Link>
-            </nav>
-          </div>
-          <div className={styles.headerActions}>
-            <span className={styles.welcomeText}>Welcome, {user?.name}!</span>
-            <Button onClick={handleLogout} variant="outline">
-              Logout
-            </Button>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className={styles.main}>
         <div className={styles.hero}>
@@ -497,9 +554,14 @@ export default function DataPage() {
           <div className={styles.card}>
             <div className={styles.cardHeader}>
               <h3 className={styles.cardTitle}>Product Inventory Details</h3>
-              <Button onClick={handleAddNew} variant="primary">
-                Add New Record
-              </Button>
+              <div className={styles.cardHeaderActions}>
+                <Button onClick={syncSoldQuantities} variant="outline" title="Sync sold quantities from customer purchases">
+                  Sync Sold Qty
+                </Button>
+                <Button onClick={handleAddNew} variant="primary">
+                  Add New Record
+                </Button>
+              </div>
             </div>
             <Table
               columns={columns as unknown as TableColumn<Record<string, unknown>>[]}
@@ -625,6 +687,63 @@ export default function DataPage() {
             </Button>
           </div>
         </div>
+      </Modal>
+
+      {/* Purchase Breakdown Modal */}
+      <Modal
+        isOpen={isBreakdownModalOpen}
+        onClose={() => {
+          setIsBreakdownModalOpen(false);
+          setBreakdownProduct(null);
+        }}
+        title={breakdownProduct ? `Purchase Breakdown: ${breakdownProduct.productName}` : 'Purchase Breakdown'}
+      >
+        {breakdownProduct && (
+          <div className={styles.breakdownContent}>
+            <div className={styles.breakdownSummary}>
+              <div className={styles.breakdownSummaryItem}>
+                <span className={styles.breakdownLabel}>Total Sold Quantity:</span>
+                <span className={styles.breakdownValue}>{breakdownProduct.soldQuantity.toLocaleString()}</span>
+              </div>
+              <div className={styles.breakdownSummaryItem}>
+                <span className={styles.breakdownLabel}>Product ID:</span>
+                <span className={styles.breakdownValue}>{breakdownProduct.productId}</span>
+              </div>
+            </div>
+            
+            {breakdownProduct.soldQuantity > 0 ? (
+              <>
+                <h4 className={styles.breakdownTitle}>Customer Purchases:</h4>
+                <div className={styles.breakdownList}>
+                  {getPurchaseBreakdown(breakdownProduct.productId).map((item, index) => (
+                    <div key={index} className={styles.breakdownItem}>
+                      <div className={styles.breakdownItemInfo}>
+                        <span className={styles.breakdownCustomerName}>{item.customerName}</span>
+                        <span className={styles.breakdownDate}>
+                          {new Date(item.purchaseDate).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          })}
+                        </span>
+                      </div>
+                      <div className={styles.breakdownQuantity}>
+                        <strong>Qty: {item.quantity}</strong>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className={styles.breakdownTotal}>
+                  <strong>Total: {getPurchaseBreakdown(breakdownProduct.productId).reduce((sum, item) => sum + item.quantity, 0).toLocaleString()} units</strong>
+                </div>
+              </>
+            ) : (
+              <div className={styles.breakdownEmpty}>
+                <p>No customer purchases found for this product.</p>
+              </div>
+            )}
+          </div>
+        )}
       </Modal>
     </div>
   );

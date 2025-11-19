@@ -1,0 +1,547 @@
+@import '../../styles/variables';
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: $bg-secondary;
+}
+
+.main {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: $spacing-2xl $spacing-xl;
+  overflow-x: hidden;
+}
+
+.hero {
+  text-align: center;
+  padding: $spacing-2xl 0;
+  margin-bottom: $spacing-2xl;
+}
+
+.heroTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  color: $text-primary;
+  margin: 0 0 $spacing-md 0;
+  line-height: 1.2;
+}
+
+.heroSubtitle {
+  font-size: 1.25rem;
+  color: $text-secondary;
+  margin: 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.statisticsSection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $spacing-lg;
+  margin-bottom: $spacing-2xl;
+}
+
+.statCard {
+  background-color: $bg-primary;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-md;
+  text-align: center;
+  transition: transform $transition-base, box-shadow $transition-base;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: $spacing-sm;
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: $primary-color;
+}
+
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-xl;
+}
+
+.productCard {
+  background-color: $bg-primary;
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  box-shadow: $shadow-md;
+  transition: transform $transition-base, box-shadow $transition-base;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+.lowStockBadge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: $radius-full;
+  background-color: rgba(255, 193, 7, 0.15);
+  color: #ffc107;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.productName {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $text-primary;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.productYears {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-md;
+  padding: $spacing-sm 0;
+  flex-wrap: wrap;
+}
+
+.yearsContent {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.yearsLabel {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.yearsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs;
+  align-items: center;
+}
+
+.yearBadge {
+  display: inline-block;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: $primary-color;
+  background-color: $primary-light;
+  border: 1px solid rgba(0, 112, 243, 0.2);
+  border-radius: $radius-sm;
+  transition: all $transition-base;
+  cursor: pointer;
+  font-family: inherit;
+  outline: none;
+
+  &:hover {
+    background-color: rgba(0, 112, 243, 0.15);
+    border-color: $primary-color;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $primary-color;
+    outline-offset: 2px;
+  }
+
+  &.yearBadgeSelected {
+    background-color: rgba(0, 112, 243, 0.25);
+    border-color: $primary-color;
+    border-width: 2px;
+    color: $primary-color;
+    box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+  }
+}
+
+.selectedYearIndicator {
+  padding: $spacing-sm $spacing-md;
+  background-color: rgba(0, 112, 243, 0.1);
+  border: 1px solid rgba(0, 112, 243, 0.2);
+  border-radius: $radius-md;
+  font-size: 0.875rem;
+  color: $text-secondary;
+  margin-bottom: $spacing-sm;
+
+  strong {
+    color: $primary-color;
+    font-weight: 600;
+  }
+}
+
+.productStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-md;
+  padding: $spacing-md 0;
+  border-top: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  text-align: center;
+}
+
+.statItemLabel {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: $text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statItemValue {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: $text-primary;
+}
+
+.stockBarContainer {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.stockBarLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $text-secondary;
+}
+
+.stockPercentage {
+  font-weight: 600;
+  color: $primary-color;
+}
+
+.stockBar {
+  width: 100%;
+  height: 8px;
+  background-color: $bg-secondary;
+  border-radius: $radius-full;
+  overflow: hidden;
+}
+
+.stockBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, $primary-color 0%, $primary-hover 100%);
+  border-radius: $radius-full;
+  transition: width $transition-base;
+
+  &.lowStock {
+    background: linear-gradient(90deg, #ffc107 0%, #ff9800 100%);
+  }
+}
+
+.emptyContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-2xl;
+  min-height: 400px;
+  text-align: center;
+}
+
+.emptyIcon {
+  color: $text-secondary;
+  margin-bottom: $spacing-lg;
+  opacity: 0.5;
+}
+
+.emptyText {
+  color: $text-secondary;
+  font-size: 1.125rem;
+  margin: 0;
+}
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  flex: 1;
+}
+
+.errorMessage {
+  background-color: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  margin-bottom: $spacing-lg;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.errorClose {
+  background: none;
+  border: none;
+  color: #c33;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: $bg-dark;
+  }
+
+  .statCard,
+  .productCard {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .heroTitle {
+    color: $text-white;
+  }
+
+  .heroSubtitle {
+    color: $text-light;
+  }
+
+  .productName {
+    color: $text-white;
+  }
+
+  .yearsLabel {
+    color: $text-light;
+  }
+
+  .yearBadge {
+    color: $primary-color;
+    background-color: rgba(0, 112, 243, 0.15);
+    border-color: rgba(0, 112, 243, 0.3);
+
+    &:hover {
+      background-color: rgba(0, 112, 243, 0.25);
+      border-color: $primary-color;
+    }
+
+    &.yearBadgeSelected {
+      background-color: rgba(0, 112, 243, 0.3);
+      border-color: $primary-color;
+      box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.3);
+    }
+  }
+
+  .selectedYearIndicator {
+    background-color: rgba(0, 112, 243, 0.15);
+    border-color: rgba(0, 112, 243, 0.3);
+    color: $text-light;
+
+    strong {
+      color: $primary-color;
+    }
+  }
+
+  .statItemValue {
+    color: $text-white;
+  }
+
+
+  .stockBar {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .errorMessage {
+    background-color: rgba(220, 53, 69, 0.2);
+    border-color: rgba(220, 53, 69, 0.4);
+    color: #ff6b6b;
+  }
+
+  .errorClose {
+    color: #ff6b6b;
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .main {
+    padding: $spacing-xl $spacing-md;
+  }
+
+  .heroTitle {
+    font-size: 2.25rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.125rem;
+  }
+
+  .statisticsSection {
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-md;
+  }
+
+  .statCard {
+    padding: $spacing-md;
+  }
+
+  .statValue {
+    font-size: 1.75rem;
+  }
+
+  .productsGrid {
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+  }
+
+  .productCard {
+    padding: $spacing-lg;
+  }
+
+  .productName {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .main {
+    padding: $spacing-lg $spacing-md;
+  }
+
+  .hero {
+    padding: $spacing-xl 0;
+    margin-bottom: $spacing-xl;
+  }
+
+  .heroTitle {
+    font-size: 1.75rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+
+  .statisticsSection {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+    margin-bottom: $spacing-xl;
+  }
+
+  .statCard {
+    padding: $spacing-md;
+  }
+
+  .statLabel {
+    font-size: 0.75rem;
+  }
+
+  .statValue {
+    font-size: 1.5rem;
+  }
+
+  .productsGrid {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+
+  .productCard {
+    padding: $spacing-md;
+  }
+
+
+  .productName {
+    font-size: 1.125rem;
+  }
+
+  .productYears {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-sm;
+  }
+
+  .yearsContent {
+    width: 100%;
+  }
+
+  .yearsLabel {
+    font-size: 0.75rem;
+  }
+
+  .yearBadge {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .productStats {
+    grid-template-columns: 1fr;
+    gap: $spacing-sm;
+    padding: $spacing-sm 0;
+  }
+
+  .statItem {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: $spacing-xs 0;
+    border-bottom: 1px solid $border-color;
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .statItemLabel {
+    font-size: 0.875rem;
+  }
+
+  .statItemValue {
+    font-size: 1rem;
+  }
+}
+
+

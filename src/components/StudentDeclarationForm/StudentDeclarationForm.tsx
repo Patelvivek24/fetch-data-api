@@ -155,8 +155,6 @@ export default function StudentDeclarationForm({
         ];
         setMembershipNumberOptions(options);
       } catch (error) {
-        console.error('Failed to fetch membership numbers:', error);
-        // Fallback to empty options or static list if needed
         setMembershipNumberOptions([
           { value: '', label: 'Select Membership Number' },
         ]);
@@ -263,7 +261,7 @@ export default function StudentDeclarationForm({
             ];
             setMembershipNumberOptions(options);
           } catch (error) {
-            console.error('Failed to refresh membership numbers:', error);
+            // Silently fail - membership numbers will refresh on next form load
           }
         }
       }
@@ -299,7 +297,7 @@ export default function StudentDeclarationForm({
         setAddMultipleRecords(false);
       }
     } catch (error) {
-      console.error('Form submission error:', error);
+      // Error is handled by parent component
     } finally {
       setIsSubmitting(false);
     }

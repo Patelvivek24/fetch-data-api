@@ -7,6 +7,7 @@
   box-shadow: $shadow-md;
   margin-bottom: $spacing-xl;
   width: 100%;
+  overflow-x: auto;
 }
 
 .chartTitle {
@@ -14,6 +15,11 @@
   font-weight: 600;
   color: $text-primary;
   margin: 0 0 $spacing-lg 0;
+}
+
+.chartWrapper {
+  width: 100%;
+  min-width: 300px;
 }
 
 .tooltip {
@@ -46,6 +52,36 @@
   span:last-child {
     color: #fff;
     font-weight: 500;
+  }
+}
+
+@media (max-width: $breakpoint-md) {
+  .chartContainer {
+    padding: $spacing-lg;
+  }
+
+  .chartTitle {
+    font-size: 1.25rem;
+  }
+
+  .chartWrapper {
+    min-width: 400px;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .chartContainer {
+    padding: $spacing-md;
+    border-radius: $radius-md;
+  }
+
+  .chartTitle {
+    font-size: 1.125rem;
+    margin-bottom: $spacing-md;
+  }
+
+  .chartWrapper {
+    min-width: 300px;
   }
 }
 

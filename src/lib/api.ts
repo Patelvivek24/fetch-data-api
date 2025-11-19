@@ -36,7 +36,6 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Token expired or invalid
       if (typeof window !== 'undefined') {
         localStorage.removeItem('auth_token');
         window.location.href = '/login';
@@ -45,6 +44,34 @@ apiClient.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+/**
+ * Helper function to handle API errors consistently
+ */
+function handleApiError(error: unknown, defaultMessage: string): ApiError {
+  if (axios.isAxiosError(error)) {
+    if (!error.response) {
+      return {
+        message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
+        errors: {},
+      };
+    }
+
+    return {
+      message:
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        `${defaultMessage} (${error.response.status}). Please try again.`,
+      errors: error.response?.data?.errors,
+    };
+  }
+
+  if (error && typeof error === 'object' && 'message' in error) {
+    return error as ApiError;
+  }
+
+  return { message: defaultMessage || 'An unexpected error occurred' };
+}
 
 // Types
 export interface LoginCredentials {
@@ -147,30 +174,11 @@ export const authApi = {
 
       return authResponse;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        // Handle network errors
-        if (!error.response) {
-          const apiError: ApiError = {
-            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}. If you're in development, make sure your backend server is started.`,
-            errors: {},
-          };
-          throw apiError;
-        }
-
-        // Handle API errors
-        const apiError: ApiError = {
-          message: error.response?.data?.message ||
-            error.response?.data?.error ||
-            `Login failed (${error.response.status}). Please try again.`,
-          errors: error.response?.data?.errors,
-        };
-        throw apiError;
-      }
-      // Re-throw if it's already an ApiError
+      // Re-throw if it's already an ApiError (from validation above)
       if (error && typeof error === 'object' && 'message' in error) {
         throw error;
       }
-      throw { message: 'An unexpected error occurred' };
+      throw handleApiError(error, 'Login failed');
     }
   },
 
@@ -225,30 +233,7 @@ export const authApi = {
       // Just return success
       return { success: true, message: 'Account created successfully! You can now sign in.' };
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        // Handle network errors
-        if (!error.response) {
-          const apiError: ApiError = {
-            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}. If you're in development, make sure your backend server is started.`,
-            errors: {},
-          };
-          throw apiError;
-        }
-
-        // Handle API errors
-        const apiError: ApiError = {
-          message: error.response?.data?.message ||
-            error.response?.data?.error ||
-            `Signup failed (${error.response.status}). Please try again.`,
-          errors: error.response?.data?.errors,
-        };
-        throw apiError;
-      }
-      // Re-throw if it's already an ApiError
-      if (error && typeof error === 'object' && 'message' in error) {
-        throw error;
-      }
-      throw { message: 'An unexpected error occurred' };
+      throw handleApiError(error, 'Signup failed');
     }
   },
 
@@ -308,26 +293,7 @@ export const authApi = {
 
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        // Handle network errors
-        if (!error.response) {
-          const apiError: ApiError = {
-            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
-            errors: {},
-          };
-          throw apiError;
-        }
-
-        // Handle API errors
-        const apiError: ApiError = {
-          message: error.response?.data?.message ||
-            error.response?.data?.error ||
-            `Failed to send reset email (${error.response.status}). Please try again.`,
-          errors: error.response?.data?.errors,
-        };
-        throw apiError;
-      }
-      throw { message: 'An unexpected error occurred' };
+      throw handleApiError(error, 'Failed to send reset email');
     }
   },
 
@@ -351,161 +317,7 @@ export const authApi = {
 
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        // Handle network errors
-        if (!error.response) {
-          const apiError: ApiError = {
-            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
-            errors: {},
-          };
-          throw apiError;
-        }
-
-        // Handle API errors
-        const apiError: ApiError = {
-          message: error.response?.data?.message ||
-            error.response?.data?.error ||
-            `Failed to reset password (${error.response.status}). The token may be invalid or expired.`,
-          errors: error.response?.data?.errors,
-        };
-        throw apiError;
-      }
-      throw { message: 'An unexpected error occurred' };
-    }
-  },
-};
-
-// Table data API functions
-export interface TableDataItem {
-  id?: number;
-  name: string;
-  email: string;
-  role: string;
-  status: string;
-  joinDate: string;
-}
-
-export const tableApi = {
-  /**
-   * Fetch table data from /tables endpoint
-   */
-  async getTableData(): Promise<TableDataItem[]> {
-    try {
-      const response = await apiClient.get<TableDataItem[]>('/tables');
-      return response.data;
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        // Handle network errors
-        if (!error.response) {
-          const apiError: ApiError = {
-            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
-            errors: {},
-          };
-          throw apiError;
-        }
-
-        // Handle API errors
-        const apiError: ApiError = {
-          message: error.response?.data?.message ||
-            error.response?.data?.error ||
-            `Failed to fetch table data (${error.response.status}). Please try again.`,
-          errors: error.response?.data?.errors,
-        };
-        throw apiError;
-      }
-      throw { message: 'An unexpected error occurred while fetching table data' };
-    }
-  },
-
-  /**
-   * Delete a table item by id
-   */
-  async deleteTableItem(id: number): Promise<void> {
-    try {
-      await apiClient.delete(`/tables/${id}`);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        // Handle network errors
-        if (!error.response) {
-          const apiError: ApiError = {
-            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
-            errors: {},
-          };
-          throw apiError;
-        }
-
-        // Handle API errors
-        const apiError: ApiError = {
-          message: error.response?.data?.message ||
-            error.response?.data?.error ||
-            `Failed to delete item (${error.response.status}). Please try again.`,
-          errors: error.response?.data?.errors,
-        };
-        throw apiError;
-      }
-      throw { message: 'An unexpected error occurred while deleting the item' };
-    }
-  },
-
-  /**
-   * Update a table item
-   */
-  async updateTableItem(id: number, data: Partial<TableDataItem>): Promise<TableDataItem> {
-    try {
-      const response = await apiClient.put<TableDataItem>(`/tables/${id}`, data);
-      return response.data;
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        // Handle network errors
-        if (!error.response) {
-          const apiError: ApiError = {
-            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
-            errors: {},
-          };
-          throw apiError;
-        }
-
-        // Handle API errors
-        const apiError: ApiError = {
-          message: error.response?.data?.message ||
-            error.response?.data?.error ||
-            `Failed to update item (${error.response.status}). Please try again.`,
-          errors: error.response?.data?.errors,
-        };
-        throw apiError;
-      }
-      throw { message: 'An unexpected error occurred while updating the item' };
-    }
-  },
-
-  /**
-   * Create a new table item
-   */
-  async createTableItem(data: Omit<TableDataItem, 'id'>): Promise<TableDataItem> {
-    try {
-      const response = await apiClient.post<TableDataItem>('/tables', data);
-      return response.data;
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        // Handle network errors
-        if (!error.response) {
-          const apiError: ApiError = {
-            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
-            errors: {},
-          };
-          throw apiError;
-        }
-
-        // Handle API errors
-        const apiError: ApiError = {
-          message: error.response?.data?.message ||
-            error.response?.data?.error ||
-            `Failed to create item (${error.response.status}). Please try again.`,
-          errors: error.response?.data?.errors,
-        };
-        throw apiError;
-      }
-      throw { message: 'An unexpected error occurred while creating the item' };
+      throw handleApiError(error, 'Failed to reset password. The token may be invalid or expired.');
     }
   },
 };
@@ -541,24 +353,7 @@ export const studentDeclarationApi = {
       const response = await apiClient.get<StudentDeclarationFormData[]>('/studentDeclarationForm');
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (!error.response) {
-          const apiError: ApiError = {
-            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
-            errors: {},
-          };
-          throw apiError;
-        }
-
-        const apiError: ApiError = {
-          message: error.response?.data?.message ||
-            error.response?.data?.error ||
-            `Failed to fetch student declaration forms (${error.response.status}). Please try again.`,
-          errors: error.response?.data?.errors,
-        };
-        throw apiError;
-      }
-      throw { message: 'An unexpected error occurred while fetching student declaration forms' };
+      throw handleApiError(error, 'Failed to fetch student declaration forms');
     }
   },
 
@@ -570,8 +365,6 @@ export const studentDeclarationApi = {
       const forms = await this.getStudentDeclarationForms();
       return forms.map(form => form.membershipNumber);
     } catch (error) {
-      // If API fails, return empty array or fallback to static list
-      console.warn('Failed to fetch membership numbers from API:', error);
       return [];
     }
   },
@@ -583,28 +376,10 @@ export const studentDeclarationApi = {
     try {
       await apiClient.delete(`/studentDeclarationForm/${id}`);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (!error.response) {
-          const apiError: ApiError = {
-            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
-            errors: {},
-          };
-          throw apiError;
-        }
-
-        const apiError: ApiError = {
-          message: error.response?.data?.message ||
-            error.response?.data?.error ||
-            `Failed to delete student declaration form (${error.response.status}). Please try again.`,
-          errors: error.response?.data?.errors,
-        };
-        throw apiError;
-      }
-      // Re-throw if it's already an ApiError
       if (error && typeof error === 'object' && 'message' in error) {
         throw error;
       }
-      throw { message: 'An unexpected error occurred while deleting the student declaration form' };
+      throw handleApiError(error, 'Failed to delete student declaration form');
     }
   },
 
@@ -622,28 +397,10 @@ export const studentDeclarationApi = {
       );
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (!error.response) {
-          const apiError: ApiError = {
-            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
-            errors: {},
-          };
-          throw apiError;
-        }
-
-        const apiError: ApiError = {
-          message: error.response?.data?.message ||
-            error.response?.data?.error ||
-            `Failed to update student declaration form (${error.response.status}). Please try again.`,
-          errors: error.response?.data?.errors,
-        };
-        throw apiError;
-      }
-      // Re-throw if it's already an ApiError
       if (error && typeof error === 'object' && 'message' in error) {
         throw error;
       }
-      throw { message: 'An unexpected error occurred while updating the student declaration form' };
+      throw handleApiError(error, 'Failed to update student declaration form');
     }
   },
 
@@ -660,28 +417,10 @@ export const studentDeclarationApi = {
       );
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (!error.response) {
-          const apiError: ApiError = {
-            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
-            errors: {},
-          };
-          throw apiError;
-        }
-
-        const apiError: ApiError = {
-          message: error.response?.data?.message ||
-            error.response?.data?.error ||
-            `Failed to create student declaration form (${error.response.status}). Please try again.`,
-          errors: error.response?.data?.errors,
-        };
-        throw apiError;
-      }
-      // Re-throw if it's already an ApiError
       if (error && typeof error === 'object' && 'message' in error) {
         throw error;
       }
-      throw { message: 'An unexpected error occurred while creating the student declaration form' };
+      throw handleApiError(error, 'Failed to create student declaration form');
     }
   },
 };
@@ -706,24 +445,7 @@ export const marketingStatisticsApi = {
       const response = await apiClient.get<MarketingStatistic[]>('/marketingStatistics');
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (!error.response) {
-          const apiError: ApiError = {
-            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
-            errors: {},
-          };
-          throw apiError;
-        }
-
-        const apiError: ApiError = {
-          message: error.response?.data?.message ||
-            error.response?.data?.error ||
-            `Failed to fetch marketing statistics (${error.response.status}). Please try again.`,
-          errors: error.response?.data?.errors,
-        };
-        throw apiError;
-      }
-      throw { message: 'An unexpected error occurred while fetching marketing statistics' };
+      throw handleApiError(error, 'Failed to fetch marketing statistics');
     }
   },
 
@@ -735,24 +457,7 @@ export const marketingStatisticsApi = {
       const response = await apiClient.get<MarketingStatistic>(`/marketingStatistics/${id}`);
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (!error.response) {
-          const apiError: ApiError = {
-            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
-            errors: {},
-          };
-          throw apiError;
-        }
-
-        const apiError: ApiError = {
-          message: error.response?.data?.message ||
-            error.response?.data?.error ||
-            `Failed to fetch marketing statistic (${error.response.status}). Please try again.`,
-          errors: error.response?.data?.errors,
-        };
-        throw apiError;
-      }
-      throw { message: 'An unexpected error occurred while fetching the marketing statistic' };
+      throw handleApiError(error, 'Failed to fetch marketing statistic');
     }
   },
 
@@ -764,24 +469,7 @@ export const marketingStatisticsApi = {
       const response = await apiClient.post<MarketingStatistic>('/marketingStatistics', data);
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (!error.response) {
-          const apiError: ApiError = {
-            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
-            errors: {},
-          };
-          throw apiError;
-        }
-
-        const apiError: ApiError = {
-          message: error.response?.data?.message ||
-            error.response?.data?.error ||
-            `Failed to create marketing statistic (${error.response.status}). Please try again.`,
-          errors: error.response?.data?.errors,
-        };
-        throw apiError;
-      }
-      throw { message: 'An unexpected error occurred while creating the marketing statistic' };
+      throw handleApiError(error, 'Failed to create marketing statistic');
     }
   },
 
@@ -793,24 +481,7 @@ export const marketingStatisticsApi = {
       const response = await apiClient.put<MarketingStatistic>(`/marketingStatistics/${id}`, data);
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (!error.response) {
-          const apiError: ApiError = {
-            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
-            errors: {},
-          };
-          throw apiError;
-        }
-
-        const apiError: ApiError = {
-          message: error.response?.data?.message ||
-            error.response?.data?.error ||
-            `Failed to update marketing statistic (${error.response.status}). Please try again.`,
-          errors: error.response?.data?.errors,
-        };
-        throw apiError;
-      }
-      throw { message: 'An unexpected error occurred while updating the marketing statistic' };
+      throw handleApiError(error, 'Failed to update marketing statistic');
     }
   },
 
@@ -821,24 +492,88 @@ export const marketingStatisticsApi = {
     try {
       await apiClient.delete(`/marketingStatistics/${id}`);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (!error.response) {
-          const apiError: ApiError = {
-            message: `Cannot connect to server. Please check if the API is running at ${API_BASE_URL}.`,
-            errors: {},
-          };
-          throw apiError;
-        }
+      throw handleApiError(error, 'Failed to delete marketing statistic');
+    }
+  },
+};
 
-        const apiError: ApiError = {
-          message: error.response?.data?.message ||
-            error.response?.data?.error ||
-            `Failed to delete marketing statistic (${error.response.status}). Please try again.`,
-          errors: error.response?.data?.errors,
-        };
-        throw apiError;
-      }
-      throw { message: 'An unexpected error occurred while deleting the marketing statistic' };
+// Customer API functions
+export interface CustomerPurchase {
+  productId: string;
+  productName: string;
+  quantity: number;
+  purchaseDate: string;
+  totalAmount: number;
+}
+
+export interface Customer {
+  id?: string | number;
+  name: string;
+  email: string;
+  phone: string;
+  address: string;
+  purchases: CustomerPurchase[];
+  totalSpent: number;
+  lastPurchaseDate: string;
+}
+
+export const customersApi = {
+  /**
+   * Fetch all customers
+   */
+  async getCustomers(): Promise<Customer[]> {
+    try {
+      const response = await apiClient.get<Customer[]>('/customers');
+      return response.data;
+    } catch (error) {
+      throw handleApiError(error, 'Failed to fetch customers');
+    }
+  },
+
+  /**
+   * Get a single customer by id
+   */
+  async getCustomer(id: string | number): Promise<Customer> {
+    try {
+      const response = await apiClient.get<Customer>(`/customers/${id}`);
+      return response.data;
+    } catch (error) {
+      throw handleApiError(error, 'Failed to fetch customer');
+    }
+  },
+
+  /**
+   * Create a new customer
+   */
+  async createCustomer(data: Omit<Customer, 'id'>): Promise<Customer> {
+    try {
+      const response = await apiClient.post<Customer>('/customers', data);
+      return response.data;
+    } catch (error) {
+      throw handleApiError(error, 'Failed to create customer');
+    }
+  },
+
+  /**
+   * Update a customer by id
+   */
+  async updateCustomer(id: string | number, data: Partial<Customer>): Promise<Customer> {
+    try {
+      const response = await apiClient.put<Customer>(`/customers/${id}`, data);
+      return response.data;
+    } catch (error) {
+      throw handleApiError(error, 'Failed to update customer');
+    }
+  },
+
+  /**
+   * Delete a customer by id
+   */
+  async deleteCustomer(id: string | number): Promise<void> {
+    try {
+      await apiClient.delete(`/customers/${id}`);
+    } catch (error) {
+      throw handleApiError(error, 'Failed to delete customer');
     }
   },
 };

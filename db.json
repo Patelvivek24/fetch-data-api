@@ -31,112 +31,6 @@
       "password": "demo123"
     }
   ],
-  "tables": [
-    {
-      "id": "1",
-      "name": "Vivek Patel",
-      "email": "vivek@example.com",
-      "role": "Admin",
-      "status": "Active",
-      "joinDate": "2024-05-12"
-    },
-    {
-      "id": "2",
-      "name": "Ananya Sharma",
-      "email": "ananya.sharma@example.com",
-      "role": "Editor",
-      "status": "Active",
-      "joinDate": "2024-08-20"
-    },
-    {
-      "id": "4",
-      "name": "Priya Desai",
-      "email": "priya.desai@example.com",
-      "role": "Moderator",
-      "status": "Active",
-      "joinDate": "2024-03-17"
-    },
-    {
-      "name": "Arjun Singh",
-      "email": "arjun@example.com",
-      "role": "Contributor",
-      "status": "Pending",
-      "joinDate": "2025-01-09",
-      "id": "5"
-    },
-    {
-      "id": "6",
-      "name": "Jane Doe",
-      "email": "jane.doe@example.com",
-      "role": "User",
-      "status": "Active",
-      "joinDate": "2024-02-20"
-    },
-    {
-      "id": "7",
-      "name": "Jim Doe",
-      "email": "jim.doe@example.com",
-      "role": "Editor",
-      "status": "Inactive",
-      "joinDate": "2024-03-10"
-    },
-    {
-      "id": "8",
-      "name": "Jill Doe",
-      "email": "jill.doe@example.com",
-      "role": "User",
-      "status": "Active",
-      "joinDate": "2024-04-05"
-    },
-    {
-      "id": "9",
-      "name": "Demo Patel",
-      "email": "demo@gmail.com",
-      "role": "Viewer",
-      "status": "Active",
-      "joinDate": "2024-05-12"
-    },
-    {
-      "id": "10",
-      "name": "Diana Prince",
-      "email": "diana.prince@example.com",
-      "role": "Admin",
-      "status": "Active",
-      "joinDate": "2024-06-01"
-    },
-    {
-      "id": "11",
-      "name": "Edward Norton",
-      "email": "edward.norton@example.com",
-      "role": "Editor",
-      "status": "Active",
-      "joinDate": "2024-06-15"
-    },
-    {
-      "id": "12",
-      "name": "John Doe",
-      "email": "john.doe@example.com",
-      "role": "Admin",
-      "status": "Active",
-      "joinDate": "2024-01-15"
-    },
-    {
-      "id": "13",
-      "name": "demo dummy",
-      "email": "demo@example.com",
-      "role": "devloper",
-      "status": "Inactive",
-      "joinDate": "2023-01-08"
-    },
-    {
-      "id": "9c39",
-      "name": "dhruv",
-      "email": "pandya@gmail.com",
-      "role": "User",
-      "status": "Pending",
-      "joinDate": "2024-07-01"
-    }
-  ],
   "studentDeclarationForm": [
     {
       "id": "a91c",
@@ -648,35 +542,35 @@
       "productId": "P001",
       "productName": "Classic Cotton T-Shirt",
       "totalStock": 150,
-      "availableStock": 110,
-      "soldQuantity": 40,
-      "date": "2020-01-15",
+      "availableStock": 137,
+      "soldQuantity": 13,
+      "date": "2021-01-15",
       "id": "1"
     },
     {
       "productId": "P002",
       "productName": "Sports Running Shoes",
       "totalStock": 80,
-      "availableStock": 48,
-      "soldQuantity": 32,
-      "date": "2020-02-20",
+      "availableStock": 54,
+      "soldQuantity": 26,
+      "date": "2021-02-20",
       "id": "2"
     },
     {
       "productId": "P003",
       "productName": "Wireless Headphones Pro",
       "totalStock": 200,
-      "availableStock": 5,
-      "soldQuantity": 195,
+      "availableStock": 170,
+      "soldQuantity": 30,
       "date": "2025-03-10",
       "id": "3"
     },
     {
       "productId": "P004",
       "productName": "Wireless Headphones Pro",
-      "totalStock": 100,
-      "availableStock": 58,
-      "soldQuantity": 42,
+      "totalStock": 80,
+      "availableStock": 73,
+      "soldQuantity": 7,
       "date": "2022-04-05",
       "id": "4"
     },
@@ -684,8 +578,8 @@
       "productId": "P005",
       "productName": "Sports Running Shoes",
       "totalStock": 220,
-      "availableStock": 100,
-      "soldQuantity": 120,
+      "availableStock": 219,
+      "soldQuantity": 1,
       "date": "2025-01-12",
       "id": "98d7"
     },
@@ -693,19 +587,606 @@
       "productId": "P006",
       "productName": "Stainless Steel Water Bottle",
       "totalStock": 95,
-      "availableStock": 25,
-      "soldQuantity": 70,
+      "availableStock": 68,
+      "soldQuantity": 27,
       "date": "2024-01-01",
       "id": "449e"
     },
     {
-      "id": "00ab",
       "productId": "P007",
       "productName": "LED Desk Lamp",
       "totalStock": 130,
-      "availableStock": 105,
-      "soldQuantity": 25,
-      "date": "2024-08-05"
+      "availableStock": 130,
+      "soldQuantity": 0,
+      "date": "2024-08-05",
+      "id": "00ab"
+    },
+    {
+      "productId": "P008",
+      "productName": "Laptop Backpack – 15 inch",
+      "totalStock": 190,
+      "availableStock": 190,
+      "soldQuantity": 0,
+      "date": "2023-11-09",
+      "id": "9cb3"
+    }
+  ],
+  "customers": [
+    {
+      "id": "1",
+      "name": "Sarah Johnson",
+      "email": "sarah.johnson@example.com",
+      "phone": "+1-555-0101",
+      "address": "101 Main Street, City 1, USA",
+      "purchases": [
+        {
+          "productId": "P002",
+          "productName": "Premium Running Shoes",
+          "quantity": 2,
+          "purchaseDate": "2021-03-14",
+          "totalAmount": 179.98
+        },
+        {
+          "productId": "P006",
+          "productName": "Travel Laptop Backpack",
+          "quantity": 1,
+          "purchaseDate": "2020-08-21",
+          "totalAmount": 59.99
+        },
+        {
+          "productId": "P003",
+          "productName": "Wireless Noise-Canceling Headphones",
+          "quantity": 2,
+          "purchaseDate": "2023-02-12",
+          "totalAmount": 299.98
+        },
+        {
+          "productId": "P004",
+          "productName": "Stainless Steel Water Bottle",
+          "quantity": 1,
+          "purchaseDate": "2020-09-05",
+          "totalAmount": 24.99
+        }
+      ],
+      "totalSpent": 564.94,
+      "lastPurchaseDate": "2023-02-12"
+    },
+    {
+      "id": "2",
+      "name": "Michael Roberts",
+      "email": "michael.roberts@example.com",
+      "phone": "+1-555-0102",
+      "address": "102 Main Street, City 2, USA",
+      "purchases": [
+        {
+          "productId": "P006",
+          "productName": "Travel Laptop Backpack",
+          "quantity": 2,
+          "purchaseDate": "2021-04-16",
+          "totalAmount": 119.98
+        },
+        {
+          "productId": "P003",
+          "productName": "Wireless Noise-Canceling Headphones",
+          "quantity": 3,
+          "purchaseDate": "2022-01-01",
+          "totalAmount": 449.97
+        },
+        {
+          "productId": "P001",
+          "productName": "Classic Cotton T-Shirt",
+          "quantity": 3,
+          "purchaseDate": "2022-08-25",
+          "totalAmount": 59.97
+        },
+        {
+          "productId": "P005",
+          "productName": "LED Desk Lamp",
+          "quantity": 1,
+          "purchaseDate": "2021-03-26",
+          "totalAmount": 34.99
+        }
+      ],
+      "totalSpent": 664.91,
+      "lastPurchaseDate": "2022-08-25"
+    },
+    {
+      "id": "3",
+      "name": "Emily Davis",
+      "email": "emily.davis@example.com",
+      "phone": "+1-555-0103",
+      "address": "103 Main Street, City 3, USA",
+      "purchases": [
+        {
+          "productId": "P001",
+          "productName": "Classic Cotton T-Shirt",
+          "quantity": 2,
+          "purchaseDate": "2023-09-23",
+          "totalAmount": 39.98
+        },
+        {
+          "productId": "P003",
+          "productName": "Wireless Noise-Canceling Headphones",
+          "quantity": 2,
+          "purchaseDate": "2021-04-28",
+          "totalAmount": 299.98
+        },
+        {
+          "productId": "P006",
+          "productName": "Travel Laptop Backpack",
+          "quantity": 3,
+          "purchaseDate": "2021-09-10",
+          "totalAmount": 179.97
+        },
+        {
+          "productId": "P002",
+          "productName": "Premium Running Shoes",
+          "quantity": 2,
+          "purchaseDate": "2024-07-21",
+          "totalAmount": 179.98
+        }
+      ],
+      "totalSpent": 699.91,
+      "lastPurchaseDate": "2024-07-21"
+    },
+    {
+      "id": "4",
+      "name": "Daniel Thompson",
+      "email": "daniel.thompson@example.com",
+      "phone": "+1-555-0104",
+      "address": "104 Main Street, City 4, USA",
+      "purchases": [
+        {
+          "productId": "P006",
+          "productName": "Travel Laptop Backpack",
+          "quantity": 2,
+          "purchaseDate": "2021-10-19",
+          "totalAmount": 119.98
+        },
+        {
+          "productId": "P002",
+          "productName": "Premium Running Shoes",
+          "quantity": 3,
+          "purchaseDate": "2024-04-19",
+          "totalAmount": 269.97
+        },
+        {
+          "productId": "P004",
+          "productName": "Stainless Steel Water Bottle",
+          "quantity": 1,
+          "purchaseDate": "2020-10-21",
+          "totalAmount": 24.99
+        },
+        {
+          "productId": "P003",
+          "productName": "Wireless Noise-Canceling Headphones",
+          "quantity": 1,
+          "purchaseDate": "2023-09-09",
+          "totalAmount": 149.99
+        }
+      ],
+      "totalSpent": 564.93,
+      "lastPurchaseDate": "2024-04-19"
+    },
+    {
+      "id": "5",
+      "name": "Ava Martinez",
+      "email": "ava.martinez@example.com",
+      "phone": "+1-555-0105",
+      "address": "105 Main Street, City 5, USA",
+      "purchases": [
+        {
+          "productId": "P006",
+          "productName": "Travel Laptop Backpack",
+          "quantity": 2,
+          "purchaseDate": "2021-10-04",
+          "totalAmount": 119.98
+        },
+        {
+          "productId": "P001",
+          "productName": "Classic Cotton T-Shirt",
+          "quantity": 3,
+          "purchaseDate": "2022-10-08",
+          "totalAmount": 59.97
+        },
+        {
+          "productId": "P002",
+          "productName": "Premium Running Shoes",
+          "quantity": 3,
+          "purchaseDate": "2023-05-25",
+          "totalAmount": 269.97
+        },
+        {
+          "productId": "P004",
+          "productName": "Stainless Steel Water Bottle",
+          "quantity": 2,
+          "purchaseDate": "2020-03-07",
+          "totalAmount": 49.98
+        },
+        {
+          "productId": "P003",
+          "productName": "Wireless Noise-Canceling Headphones",
+          "quantity": 1,
+          "purchaseDate": "2024-02-08",
+          "totalAmount": 149.99
+        }
+      ],
+      "totalSpent": 649.89,
+      "lastPurchaseDate": "2024-02-08"
+    },
+    {
+      "id": "6",
+      "name": "James Wilson",
+      "email": "james.wilson@example.com",
+      "phone": "+1-555-0106",
+      "address": "106 Main Street, City 6, USA",
+      "purchases": [
+        {
+          "productId": "P002",
+          "productName": "Premium Running Shoes",
+          "quantity": 1,
+          "purchaseDate": "2021-06-07",
+          "totalAmount": 89.99
+        },
+        {
+          "productId": "P006",
+          "productName": "Travel Laptop Backpack",
+          "quantity": 3,
+          "purchaseDate": "2023-11-26",
+          "totalAmount": 179.97
+        },
+        {
+          "productId": "P003",
+          "productName": "Wireless Noise-Canceling Headphones",
+          "quantity": 2,
+          "purchaseDate": "2023-05-06",
+          "totalAmount": 299.98
+        }
+      ],
+      "totalSpent": 569.94,
+      "lastPurchaseDate": "2023-11-26"
+    },
+    {
+      "id": "7",
+      "name": "Sophia Anderson",
+      "email": "sophia.anderson@example.com",
+      "phone": "+1-555-0107",
+      "address": "107 Main Street, City 7, USA",
+      "purchases": [
+        {
+          "productId": "P004",
+          "productName": "Stainless Steel Water Bottle",
+          "quantity": 1,
+          "purchaseDate": "2024-01-18",
+          "totalAmount": 24.99
+        },
+        {
+          "productId": "P002",
+          "productName": "Premium Running Shoes",
+          "quantity": 2,
+          "purchaseDate": "2023-04-12",
+          "totalAmount": 179.98
+        },
+        {
+          "productId": "P003",
+          "productName": "Wireless Noise-Canceling Headphones",
+          "quantity": 1,
+          "purchaseDate": "2022-10-28",
+          "totalAmount": 149.99
+        },
+        {
+          "productId": "P006",
+          "productName": "Travel Laptop Backpack",
+          "quantity": 2,
+          "purchaseDate": "2021-09-15",
+          "totalAmount": 119.98
+        }
+      ],
+      "totalSpent": 474.94,
+      "lastPurchaseDate": "2024-01-18"
+    },
+    {
+      "id": "8",
+      "name": "William Clark",
+      "email": "william.clark@example.com",
+      "phone": "+1-555-0108",
+      "address": "108 Main Street, City 8, USA",
+      "purchases": [
+        {
+          "productId": "P002",
+          "productName": "Premium Running Shoes",
+          "quantity": 3,
+          "purchaseDate": "2021-03-17",
+          "totalAmount": 269.97
+        },
+        {
+          "productId": "P003",
+          "productName": "Wireless Noise-Canceling Headphones",
+          "quantity": 3,
+          "purchaseDate": "2024-04-01",
+          "totalAmount": 449.97
+        },
+        {
+          "productId": "P006",
+          "productName": "Travel Laptop Backpack",
+          "quantity": 2,
+          "purchaseDate": "2023-01-16",
+          "totalAmount": 119.98
+        }
+      ],
+      "totalSpent": 839.92,
+      "lastPurchaseDate": "2024-04-01"
+    },
+    {
+      "id": "9",
+      "name": "Mia Lewis",
+      "email": "mia.lewis@example.com",
+      "phone": "+1-555-0109",
+      "address": "109 Main Street, City 9, USA",
+      "purchases": [
+        {
+          "productId": "P004",
+          "productName": "Stainless Steel Water Bottle",
+          "quantity": 2,
+          "purchaseDate": "2023-05-23",
+          "totalAmount": 49.98
+        },
+        {
+          "productId": "P003",
+          "productName": "Wireless Noise-Canceling Headphones",
+          "quantity": 3,
+          "purchaseDate": "2024-02-14",
+          "totalAmount": 449.97
+        },
+        {
+          "productId": "P002",
+          "productName": "Premium Running Shoes",
+          "quantity": 2,
+          "purchaseDate": "2022-04-02",
+          "totalAmount": 179.98
+        }
+      ],
+      "totalSpent": 679.93,
+      "lastPurchaseDate": "2024-02-14"
+    },
+    {
+      "id": "10",
+      "name": "Benjamin Walker",
+      "email": "benjamin.walker@example.com",
+      "phone": "+1-555-0110",
+      "address": "110 Main Street, City 10, USA",
+      "purchases": [
+        {
+          "productId": "P006",
+          "productName": "Travel Laptop Backpack",
+          "quantity": 3,
+          "purchaseDate": "2020-06-28",
+          "totalAmount": 179.97
+        },
+        {
+          "productId": "P003",
+          "productName": "Wireless Noise-Canceling Headphones",
+          "quantity": 2,
+          "purchaseDate": "2024-05-16",
+          "totalAmount": 299.98
+        },
+        {
+          "productId": "P001",
+          "productName": "Classic Cotton T-Shirt",
+          "quantity": 3,
+          "purchaseDate": "2023-09-16",
+          "totalAmount": 59.97
+        }
+      ],
+      "totalSpent": 539.92,
+      "lastPurchaseDate": "2024-05-16"
+    },
+    {
+      "id": "11",
+      "name": "Emma Hall",
+      "email": "emma.hall@example.com",
+      "phone": "+1-555-0111",
+      "address": "111 Main Street, City 11, USA",
+      "purchases": [
+        {
+          "productId": "P002",
+          "productName": "Premium Running Shoes",
+          "quantity": 3,
+          "purchaseDate": "2024-12-26",
+          "totalAmount": 269.97
+        },
+        {
+          "productId": "P006",
+          "productName": "Travel Laptop Backpack",
+          "quantity": 1,
+          "purchaseDate": "2022-10-25",
+          "totalAmount": 59.99
+        }
+      ],
+      "totalSpent": 329.96,
+      "lastPurchaseDate": "2024-12-26"
+    },
+    {
+      "id": "12",
+      "name": "Ethan Young",
+      "email": "ethan.young@example.com",
+      "phone": "+1-555-0112",
+      "address": "112 Main Street, City 12, USA",
+      "purchases": [
+        {
+          "productId": "P006",
+          "productName": "Travel Laptop Backpack",
+          "quantity": 1,
+          "purchaseDate": "2021-03-05",
+          "totalAmount": 59.99
+        },
+        {
+          "productId": "P003",
+          "productName": "Wireless Noise-Canceling Headphones",
+          "quantity": 1,
+          "purchaseDate": "2023-11-29",
+          "totalAmount": 149.99
+        },
+        {
+          "productId": "P001",
+          "productName": "Classic Cotton T-Shirt",
+          "quantity": 1,
+          "purchaseDate": "2023-01-31",
+          "totalAmount": 19.99
+        },
+        {
+          "productId": "P002",
+          "productName": "Premium Running Shoes",
+          "quantity": 1,
+          "purchaseDate": "2022-05-26",
+          "totalAmount": 89.99
+        }
+      ],
+      "totalSpent": 319.96,
+      "lastPurchaseDate": "2023-11-29"
+    },
+    {
+      "id": "13",
+      "name": "Olivia King",
+      "email": "olivia.king@example.com",
+      "phone": "+1-555-0113",
+      "address": "113 Main Street, City 13, USA",
+      "purchases": [
+        {
+          "productId": "P006",
+          "productName": "Travel Laptop Backpack",
+          "quantity": 2,
+          "purchaseDate": "2024-01-27",
+          "totalAmount": 119.98
+        },
+        {
+          "productId": "P003",
+          "productName": "Wireless Noise-Canceling Headphones",
+          "quantity": 2,
+          "purchaseDate": "2020-11-17",
+          "totalAmount": 299.98
+        }
+      ],
+      "totalSpent": 419.96,
+      "lastPurchaseDate": "2024-01-27"
+    },
+    {
+      "id": "14",
+      "name": "Noah Scott",
+      "email": "noah.scott@example.com",
+      "phone": "+1-555-0114",
+      "address": "114 Main Street, City 14, USA",
+      "purchases": [
+        {
+          "productId": "P002",
+          "productName": "Premium Running Shoes",
+          "quantity": 2,
+          "purchaseDate": "2024-03-09",
+          "totalAmount": 179.98
+        },
+        {
+          "productId": "P003",
+          "productName": "Wireless Noise-Canceling Headphones",
+          "quantity": 1,
+          "purchaseDate": "2020-01-12",
+          "totalAmount": 149.99
+        }
+      ],
+      "totalSpent": 329.97,
+      "lastPurchaseDate": "2024-03-09"
+    },
+    {
+      "id": "15",
+      "name": "Isabella Nelson",
+      "email": "isabella.nelson@example.com",
+      "phone": "+1-555-0115",
+      "address": "115 Main Street, City 15, USA",
+      "purchases": [
+        {
+          "productId": "P003",
+          "productName": "Wireless Noise-Canceling Headphones",
+          "quantity": 1,
+          "purchaseDate": "2024-12-13",
+          "totalAmount": 149.99
+        },
+        {
+          "productId": "P001",
+          "productName": "Classic Cotton T-Shirt",
+          "quantity": 1,
+          "purchaseDate": "2022-07-20",
+          "totalAmount": 19.99
+        },
+        {
+          "productId": "P002",
+          "productName": "Premium Running Shoes",
+          "quantity": 1,
+          "purchaseDate": "2021-03-04",
+          "totalAmount": 89.99
+        }
+      ],
+      "totalSpent": 259.97,
+      "lastPurchaseDate": "2024-12-13"
+    },
+    {
+      "id": "16",
+      "name": "Lucas Carter",
+      "email": "lucas.carter@example.com",
+      "phone": "+1-555-0116",
+      "address": "116 Main Street, City 16, USA",
+      "purchases": [
+        {
+          "productId": "P006",
+          "productName": "Travel Laptop Backpack",
+          "quantity": 3,
+          "purchaseDate": "2020-12-06",
+          "totalAmount": 179.97
+        },
+        {
+          "productId": "P002",
+          "productName": "Premium Running Shoes",
+          "quantity": 1,
+          "purchaseDate": "2022-08-23",
+          "totalAmount": 89.99
+        }
+      ],
+      "totalSpent": 269.96,
+      "lastPurchaseDate": "2022-08-23"
+    },
+    {
+      "id": "17",
+      "name": "Charlotte Perez",
+      "email": "charlotte.perez@example.com",
+      "phone": "+1-555-0117",
+      "address": "117 Main Street, City 17, USA",
+      "purchases": [
+        {
+          "productId": "P003",
+          "productName": "Wireless Noise-Canceling Headphones",
+          "quantity": 2,
+          "purchaseDate": "2024-07-21",
+          "totalAmount": 299.98
+        }
+      ],
+      "totalSpent": 299.98,
+      "lastPurchaseDate": "2024-07-21"
+    },
+    {
+      "id": "18",
+      "name": "Henry Mitchell",
+      "email": "henry.mitchell@example.com",
+      "phone": "+1-555-0118",
+      "address": "118 Main Street, City 18, USA",
+      "purchases": [
+        {
+          "productId": "P003",
+          "productName": "Wireless Noise-Canceling Headphones",
+          "quantity": 3,
+          "purchaseDate": "2024-02-14",
+          "totalAmount": 449.97
+        }
+      ],
+      "totalSpent": 449.97,
+      "lastPurchaseDate": "2024-02-14"
     }
   ]
 }

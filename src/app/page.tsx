@@ -1,23 +1,24 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { useAuth } from '@/hooks/useAuth';
 import Button from '@/components/Button';
+import Header from '@/components/Header';
 import Table, { TableColumn } from '@/components/Table';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import Modal from '@/components/Modal';
-import InputField from '@/components/InputField';
 import StudentDeclarationForm from '@/components/StudentDeclarationForm';
 import StudentDeclarationCard from '@/components/StudentDeclarationCard';
 import Pagination from '@/components/Pagination';
-import { tableApi, TableDataItem, studentDeclarationApi, StudentDeclarationFormData } from '@/lib/api';
+import { customersApi, Customer, CustomerPurchase, studentDeclarationApi, StudentDeclarationFormData, marketingStatisticsApi, MarketingStatistic } from '@/lib/api';
+import InputField from '@/components/InputField';
+import Select from '@/components/Select';
 import styles from './page.module.scss';
 
 export default function Home() {
   const router = useRouter();
-  const { isAuthenticated, isLoading, user, logout } = useAuth();
+  const { isAuthenticated, isLoading, user } = useAuth();
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -25,14 +26,10 @@ export default function Home() {
     }
   }, [isAuthenticated, isLoading, router]);
 
-  const handleLogout = () => {
-    logout();
-  };
-
-  // State for table data
-  const [tableData, setTableData] = useState<TableDataItem[]>([]);
-  const [isTableLoading, setIsTableLoading] = useState(true);
-  const [tableError, setTableError] = useState<string | null>(null);
+  // State for customer data
+  const [customerData, setCustomerData] = useState<Customer[]>([]);
+  const [isCustomerLoading, setIsCustomerLoading] = useState(true);
+  const [customerError, setCustomerError] = useState<string | null>(null);
 
   // State for student declaration forms
   const [studentDeclarations, setStudentDeclarations] = useState<StudentDeclarationFormData[]>([]);
@@ -41,54 +38,81 @@ export default function Home() {
   const [currentCardPage, setCurrentCardPage] = useState(1);
   const cardsPerPage = 6;
 
-  // State for add modal
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  // State for edit modal
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [editingItem, setEditingItem] = useState<TableDataItem | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    role: '',
-    status: 'Active',
-    joinDate: new Date().toISOString().split('T')[0],
-  });
-  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
-
   // State for student declaration edit modal
   const [isEditStudentDeclarationModalOpen, setIsEditStudentDeclarationModalOpen] = useState(false);
   const [editingStudentDeclaration, setEditingStudentDeclaration] = useState<StudentDeclarationFormData | null>(null);
 
-  // Fetch table data from API
+  // State for customer modals
+  const [isViewCustomerModalOpen, setIsViewCustomerModalOpen] = useState(false);
+  const [isEditCustomerModalOpen, setIsEditCustomerModalOpen] = useState(false);
+  const [isAddCustomerModalOpen, setIsAddCustomerModalOpen] = useState(false);
+  const [isDeleteCustomerModalOpen, setIsDeleteCustomerModalOpen] = useState(false);
+  const [viewingCustomer, setViewingCustomer] = useState<Customer | null>(null);
+  const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null);
+  const [deletingCustomer, setDeletingCustomer] = useState<Customer | null>(null);
+  const [customerFormData, setCustomerFormData] = useState<Omit<Customer, 'id'>>({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    purchases: [],
+    totalSpent: 0,
+    lastPurchaseDate: '',
+  });
+  const [customerFormErrors, setCustomerFormErrors] = useState<Record<string, string>>({});
+  const [isSubmittingCustomer, setIsSubmittingCustomer] = useState(false);
+  
+  // State for products and purchase management
+  const [products, setProducts] = useState<MarketingStatistic[]>([]);
+  const [newPurchase, setNewPurchase] = useState<Omit<CustomerPurchase, 'totalAmount'>>({
+    productId: '',
+    productName: '',
+    quantity: 1,
+    purchaseDate: new Date().toISOString().split('T')[0],
+  });
+  const [editingPurchaseIndex, setEditingPurchaseIndex] = useState<number | null>(null);
+
+  // Fetch customer data from API
   useEffect(() => {
-    const fetchTableData = async () => {
+    const fetchCustomerData = async () => {
       try {
-        setIsTableLoading(true);
-        setTableError(null);
-        const data = await tableApi.getTableData();
-        // Add id to each item if not present (for React keys)
-        const dataWithIds = data.map((item, index) => ({
-          ...item,
-          id: item.id || index + 1,
-        }));
-        setTableData(dataWithIds);
+        setIsCustomerLoading(true);
+        setCustomerError(null);
+        const data = await customersApi.getCustomers();
+        setCustomerData(data);
       } catch (error) {
         if (error instanceof Error) {
-          setTableError(error.message || 'Failed to load table data');
+          setCustomerError(error.message || 'Failed to load customer data');
         } else {
-          setTableError('Failed to load table data');
+          setCustomerError('Failed to load customer data');
         }
-        setTableData([]);
+        setCustomerData([]);
       } finally {
-        setIsTableLoading(false);
+        setIsCustomerLoading(false);
       }
     };
 
     if (isAuthenticated) {
-      fetchTableData();
+      fetchCustomerData();
     }
   }, [isAuthenticated]);
+
+  // Fetch products for purchase management
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await marketingStatisticsApi.getMarketingStatistics();
+        setProducts(data);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      }
+    };
+
+    if (isAuthenticated) {
+      fetchProducts();
+    }
+  }, [isAuthenticated]);
+
 
   // Fetch student declaration forms
   useEffect(() => {
@@ -116,26 +140,6 @@ export default function Home() {
     }
   }, [isAuthenticated]);
 
-  const handleDelete = async (id: number) => {
-    if (window.confirm('Are you sure you want to delete this item?')) {
-      try {
-        await tableApi.deleteTableItem(id);
-        // Refresh table data after deletion
-        const data = await tableApi.getTableData();
-        const dataWithIds = data.map((item, index) => ({
-          ...item,
-          id: item.id || index + 1,
-        }));
-        setTableData(dataWithIds);
-      } catch (error) {
-        if (error instanceof Error) {
-          alert(`Failed to delete item: ${error.message}`);
-        } else {
-          alert('Failed to delete item');
-        }
-      }
-    }
-  };
 
   const handleDeleteStudentDeclaration = async (id: string | number) => {
     const declaration = studentDeclarations.find(d => d.id === id);
@@ -165,6 +169,378 @@ export default function Home() {
   const handleCloseStudentDeclarationEditModal = () => {
     setIsEditStudentDeclarationModalOpen(false);
     setEditingStudentDeclaration(null);
+  };
+
+  // Customer handlers
+  const handleViewCustomer = (customer: Customer) => {
+    setViewingCustomer(customer);
+    setIsViewCustomerModalOpen(true);
+  };
+
+  const handleAddNewCustomer = () => {
+    setEditingCustomer(null);
+    setCustomerFormData({
+      name: '',
+      email: '',
+      phone: '',
+      address: '',
+      purchases: [],
+      totalSpent: 0,
+      lastPurchaseDate: new Date().toISOString().split('T')[0],
+    });
+    setCustomerFormErrors({});
+    setIsAddCustomerModalOpen(true);
+  };
+
+  const handleEditCustomer = (customer: Customer) => {
+    setEditingCustomer(customer);
+    setCustomerFormData({
+      name: customer.name,
+      email: customer.email,
+      phone: customer.phone,
+      address: customer.address,
+      purchases: customer.purchases,
+      totalSpent: customer.totalSpent,
+      lastPurchaseDate: customer.lastPurchaseDate,
+    });
+    setCustomerFormErrors({});
+    setIsEditCustomerModalOpen(true);
+  };
+
+  const handleDeleteCustomer = (customer: Customer) => {
+    setDeletingCustomer(customer);
+    setIsDeleteCustomerModalOpen(true);
+  };
+
+  const handleCloseViewCustomerModal = () => {
+    setIsViewCustomerModalOpen(false);
+    setViewingCustomer(null);
+  };
+
+  const handleCloseEditCustomerModal = () => {
+    setIsEditCustomerModalOpen(false);
+    setEditingCustomer(null);
+    setCustomerFormErrors({});
+  };
+
+  const handleCloseAddCustomerModal = () => {
+    setIsAddCustomerModalOpen(false);
+    setEditingCustomer(null);
+    setCustomerFormErrors({});
+  };
+
+  const handleCloseDeleteCustomerModal = () => {
+    setIsDeleteCustomerModalOpen(false);
+    setDeletingCustomer(null);
+  };
+
+  const handleCustomerInputChange = (field: keyof typeof customerFormData, value: string | number | CustomerPurchase[]) => {
+    setCustomerFormData((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+    if (customerFormErrors[field]) {
+      setCustomerFormErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
+  };
+
+  const validateCustomerForm = (): boolean => {
+    const errors: Record<string, string> = {};
+
+    if (!customerFormData.name.trim()) {
+      errors.name = 'Name is required';
+    }
+    if (!customerFormData.email.trim()) {
+      errors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerFormData.email)) {
+      errors.email = 'Invalid email format';
+    }
+    if (!customerFormData.phone.trim()) {
+      errors.phone = 'Phone is required';
+    }
+    if (!customerFormData.address.trim()) {
+      errors.address = 'Address is required';
+    }
+
+    setCustomerFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleCustomerFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!validateCustomerForm()) {
+      return;
+    }
+
+    try {
+      setIsSubmittingCustomer(true);
+      
+      if (editingCustomer && editingCustomer.id) {
+        // Update existing customer
+        await customersApi.updateCustomer(editingCustomer.id, customerFormData);
+      } else {
+        // Create new customer
+        await customersApi.createCustomer(customerFormData);
+      }
+      
+      // Recalculate sold quantities from all customers
+      await syncPurchasesWithProducts();
+      
+      // Refresh customer data and products
+      const [customerData, productData] = await Promise.all([
+        customersApi.getCustomers(),
+        marketingStatisticsApi.getMarketingStatistics(),
+      ]);
+      setCustomerData(customerData);
+      setProducts(productData);
+      
+      if (editingCustomer) {
+        handleCloseEditCustomerModal();
+      } else {
+        handleCloseAddCustomerModal();
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(`Failed to ${editingCustomer ? 'update' : 'create'} customer: ${error.message}`);
+      } else {
+        alert(`Failed to ${editingCustomer ? 'update' : 'create'} customer`);
+      }
+    } finally {
+      setIsSubmittingCustomer(false);
+    }
+  };
+
+  const handleConfirmDeleteCustomer = async () => {
+    if (!deletingCustomer || !deletingCustomer.id) return;
+
+    try {
+      setIsSubmittingCustomer(true);
+      await customersApi.deleteCustomer(deletingCustomer.id);
+      // Recalculate sold quantities from all remaining customers
+      await syncPurchasesWithProducts();
+      // Refresh customer data
+      const data = await customersApi.getCustomers();
+      setCustomerData(data);
+      handleCloseDeleteCustomerModal();
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(`Failed to delete customer: ${error.message}`);
+      } else {
+        alert('Failed to delete customer');
+      }
+    } finally {
+      setIsSubmittingCustomer(false);
+    }
+  };
+
+
+  // Calculate sold quantities from all customer purchases
+  const calculateSoldQuantitiesFromCustomers = useCallback(async () => {
+    try {
+      // Get all customers and their purchases
+      const allCustomers = await customersApi.getCustomers();
+      
+      // Calculate total sold quantity for each product from all customer purchases
+      const productSoldQuantities = new Map<string, number>();
+      
+      allCustomers.forEach(customer => {
+        if (customer.purchases && customer.purchases.length > 0) {
+          customer.purchases.forEach(purchase => {
+            const current = productSoldQuantities.get(purchase.productId) || 0;
+            productSoldQuantities.set(purchase.productId, current + purchase.quantity);
+          });
+        }
+      });
+
+      // Get all products
+      const allProducts = await marketingStatisticsApi.getMarketingStatistics();
+      
+      // Group products by productId
+      const productMap = new Map<string, MarketingStatistic[]>();
+      allProducts.forEach(product => {
+        if (!productMap.has(product.productId)) {
+          productMap.set(product.productId, []);
+        }
+        productMap.get(product.productId)!.push(product);
+      });
+
+      // Update each product's sold quantity based on actual customer purchases
+      for (const [productId, soldQuantity] of productSoldQuantities.entries()) {
+        const productRecords = productMap.get(productId);
+        if (!productRecords || productRecords.length === 0) continue;
+
+        // Update the most recent product record (or first one if no date)
+        const productToUpdate = productRecords.sort((a, b) => 
+          new Date(b.date).getTime() - new Date(a.date).getTime()
+        )[0];
+
+        if (productToUpdate.id) {
+          const newAvailableStock = Math.max(0, productToUpdate.totalStock - soldQuantity);
+          
+          await marketingStatisticsApi.updateMarketingStatistic(productToUpdate.id, {
+            soldQuantity: soldQuantity,
+            availableStock: newAvailableStock,
+          });
+        }
+      }
+
+      // Also handle products that have no customer purchases (set sold quantity to 0)
+      for (const [productId, productRecords] of productMap.entries()) {
+        if (!productSoldQuantities.has(productId)) {
+          const productToUpdate = productRecords.sort((a, b) => 
+            new Date(b.date).getTime() - new Date(a.date).getTime()
+          )[0];
+
+          if (productToUpdate.id && productToUpdate.soldQuantity > 0) {
+            const newAvailableStock = productToUpdate.totalStock;
+            
+            await marketingStatisticsApi.updateMarketingStatistic(productToUpdate.id, {
+              soldQuantity: 0,
+              availableStock: newAvailableStock,
+            });
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Failed to calculate sold quantities from customers:', error);
+      throw error;
+    }
+  }, []);
+
+  // Sync customer purchases with product sold quantities (recalculates from all customers)
+  const syncPurchasesWithProducts = useCallback(async () => {
+    await calculateSoldQuantitiesFromCustomers();
+  }, [calculateSoldQuantitiesFromCustomers]);
+
+
+  // Purchase management handlers
+  const handleAddPurchase = () => {
+    if (!newPurchase.productId || !newPurchase.quantity || newPurchase.quantity <= 0) {
+      alert('Please select a product and enter a valid quantity');
+      return;
+    }
+
+    const selectedProduct = products.find(p => p.productId === newPurchase.productId);
+    if (!selectedProduct) {
+      alert('Product not found');
+      return;
+    }
+
+    // Calculate total amount (using a simple price calculation - you may need to adjust this)
+    const unitPrice = 20; // Default price, you might want to add price to products
+    const totalAmount = newPurchase.quantity * unitPrice;
+
+    const purchase: CustomerPurchase = {
+      ...newPurchase,
+      productName: selectedProduct.productName,
+      totalAmount,
+    };
+
+    const updatedPurchases = [...customerFormData.purchases, purchase];
+    const totalSpent = updatedPurchases.reduce((sum, p) => sum + p.totalAmount, 0);
+    const lastPurchaseDate = updatedPurchases.length > 0
+      ? updatedPurchases.sort((a, b) => new Date(b.purchaseDate).getTime() - new Date(a.purchaseDate).getTime())[0].purchaseDate
+      : customerFormData.lastPurchaseDate;
+
+    setCustomerFormData({
+      ...customerFormData,
+      purchases: updatedPurchases,
+      totalSpent,
+      lastPurchaseDate,
+    });
+
+    setNewPurchase({
+      productId: '',
+      productName: '',
+      quantity: 1,
+      purchaseDate: new Date().toISOString().split('T')[0],
+    });
+  };
+
+  const handleEditPurchase = (index: number) => {
+    const purchase = customerFormData.purchases[index];
+    setNewPurchase({
+      productId: purchase.productId,
+      productName: purchase.productName,
+      quantity: purchase.quantity,
+      purchaseDate: purchase.purchaseDate,
+    });
+    setEditingPurchaseIndex(index);
+  };
+
+  const handleUpdatePurchase = () => {
+    if (editingPurchaseIndex === null || !newPurchase.productId || !newPurchase.quantity || newPurchase.quantity <= 0) {
+      alert('Please select a product and enter a valid quantity');
+      return;
+    }
+
+    const selectedProduct = products.find(p => p.productId === newPurchase.productId);
+    if (!selectedProduct) {
+      alert('Product not found');
+      return;
+    }
+
+    const unitPrice = 20; // Default price
+    const totalAmount = newPurchase.quantity * unitPrice;
+
+    const updatedPurchases = [...customerFormData.purchases];
+    updatedPurchases[editingPurchaseIndex] = {
+      ...newPurchase,
+      productName: selectedProduct.productName,
+      totalAmount,
+    };
+
+    const totalSpent = updatedPurchases.reduce((sum, p) => sum + p.totalAmount, 0);
+    const lastPurchaseDate = updatedPurchases.length > 0
+      ? updatedPurchases.sort((a, b) => new Date(b.purchaseDate).getTime() - new Date(a.purchaseDate).getTime())[0].purchaseDate
+      : customerFormData.lastPurchaseDate;
+
+    setCustomerFormData({
+      ...customerFormData,
+      purchases: updatedPurchases,
+      totalSpent,
+      lastPurchaseDate,
+    });
+
+    setNewPurchase({
+      productId: '',
+      productName: '',
+      quantity: 1,
+      purchaseDate: new Date().toISOString().split('T')[0],
+    });
+    setEditingPurchaseIndex(null);
+  };
+
+  const handleDeletePurchase = (index: number) => {
+    if (window.confirm('Are you sure you want to delete this purchase?')) {
+      const updatedPurchases = customerFormData.purchases.filter((_, i) => i !== index);
+      const totalSpent = updatedPurchases.reduce((sum, p) => sum + p.totalAmount, 0);
+      const lastPurchaseDate = updatedPurchases.length > 0
+        ? updatedPurchases.sort((a, b) => new Date(b.purchaseDate).getTime() - new Date(a.purchaseDate).getTime())[0].purchaseDate
+        : '';
+
+      setCustomerFormData({
+        ...customerFormData,
+        purchases: updatedPurchases,
+        totalSpent,
+        lastPurchaseDate,
+      });
+    }
+  };
+
+  const handleCancelPurchaseEdit = () => {
+    setNewPurchase({
+      productId: '',
+      productName: '',
+      quantity: 1,
+      purchaseDate: new Date().toISOString().split('T')[0],
+    });
+    setEditingPurchaseIndex(null);
   };
 
   // Helper function to convert StudentDeclarationFormData to StudentFormData format
@@ -246,167 +622,28 @@ export default function Home() {
     }
   };
 
-  const handleEdit = (item: TableDataItem) => {
-    setEditingItem(item);
-    setFormData({
-      name: item.name || '',
-      email: item.email || '',
-      role: item.role || '',
-      status: item.status || 'Active',
-      joinDate: item.joinDate || new Date().toISOString().split('T')[0],
-    });
-    setFormErrors({});
-    setIsEditModalOpen(true);
-  };
 
-  const handleAddClick = () => {
-    setIsAddModalOpen(true);
-    setFormData({
-      name: '',
-      email: '',
-      role: '',
-      status: 'Active',
-      joinDate: new Date().toISOString().split('T')[0],
-    });
-    setFormErrors({});
-  };
-
-  const handleCloseModal = () => {
-    setIsAddModalOpen(false);
-    setIsEditModalOpen(false);
-    setEditingItem(null);
-    setFormData({
-      name: '',
-      email: '',
-      role: '',
-      status: 'Active',
-      joinDate: new Date().toISOString().split('T')[0],
-    });
-    setFormErrors({});
-  };
-
-  const validateForm = (): boolean => {
-    const errors: Record<string, string> = {};
-
-    if (!formData.name.trim()) {
-      errors.name = 'Name is required';
-    }
-
-    if (!formData.email.trim()) {
-      errors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      errors.email = 'Please enter a valid email address';
-    }
-
-    if (!formData.role.trim()) {
-      errors.role = 'Role is required';
-    }
-
-    if (!formData.status) {
-      errors.status = 'Status is required';
-    }
-
-    if (!formData.joinDate) {
-      errors.joinDate = 'Join date is required';
-    }
-
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!validateForm()) {
-      return;
-    }
-
-    setIsSubmitting(true);
-    try {
-      if (editingItem && editingItem.id) {
-        // Update existing record
-        await tableApi.updateTableItem(editingItem.id, {
-          name: formData.name.trim(),
-          email: formData.email.trim(),
-          role: formData.role.trim(),
-          status: formData.status,
-          joinDate: formData.joinDate,
-        });
-      } else {
-        // Create new record
-        await tableApi.createTableItem({
-          name: formData.name.trim(),
-          email: formData.email.trim(),
-          role: formData.role.trim(),
-          status: formData.status,
-          joinDate: formData.joinDate,
-        });
-      }
-
-      // Refresh table data
-      const data = await tableApi.getTableData();
-      const dataWithIds = data.map((item, index) => ({
-        ...item,
-        id: item.id || index + 1,
-      }));
-      setTableData(dataWithIds);
-
-      // Close modal and reset form
-      handleCloseModal();
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(`Failed to ${editingItem ? 'update' : 'create'} record: ${error.message}`);
-      } else {
-        alert(`Failed to ${editingItem ? 'update' : 'create'} record`);
-      }
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const tableColumns: TableColumn<Record<string, unknown>>[] = useMemo(
+  const customerColumns: TableColumn<Record<string, unknown>>[] = useMemo(
     () => [
       {
         key: 'name',
-        header: 'Name',
-        width: '20%',
+        header: 'Customer Name',
+        width: '15%',
       },
       {
         key: 'email',
         header: 'Email',
-        width: '25%',
+        width: '18%',
       },
       {
-        key: 'role',
-        header: 'Role',
-        width: '12%',
-        render: (value: unknown) => (
-          <span className={styles.badge}>{String(value)}</span>
-        ),
+        key: 'phone',
+        header: 'Phone',
+        width: '15%',
       },
       {
-        key: 'status',
-        header: 'Status',
-        width: '12%',
-        render: (value: unknown) => {
-          const statusValue = String(value);
-          const statusClass =
-            statusValue === 'Active'
-              ? styles.active
-              : statusValue === 'Pending'
-                ? styles.pending
-                : styles.inactive;
-          return (
-            <span className={`${styles.statusBadge} ${statusClass}`}>
-              {statusValue}
-            </span>
-          );
-        },
-      },
-      {
-        key: 'joinDate',
-        header: 'Join Date',
-        width: '12%',
+        key: 'lastPurchaseDate',
+        header: 'Last Purchase',
+        width: '18%',
         render: (value: unknown) => {
           const date = new Date(String(value));
           return date.toLocaleDateString('en-US', {
@@ -419,24 +656,46 @@ export default function Home() {
       {
         key: 'actions',
         header: 'Actions',
-        width: '19%',
-        align: 'center',
+        width: '15%',
         render: (_value: unknown, row: Record<string, unknown>) => {
-          const rowData = row as unknown as TableDataItem;
+          const customer = row as unknown as Customer;
           return (
             <div className={styles.actionButtons}>
+              <button
+                className={styles.viewButton}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleViewCustomer(customer);
+                }}
+                aria-label={`View ${customer.name}`}
+                title="View"
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
               <button
                 className={styles.editButton}
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleEdit(rowData);
+                  handleEditCustomer(customer);
                 }}
-                aria-label={`Edit ${rowData.name}`}
+                aria-label={`Edit ${customer.name}`}
                 title="Edit"
               >
                 <svg
-                  width="16"
-                  height="16"
+                  width="14"
+                  height="14"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -452,16 +711,14 @@ export default function Home() {
                 className={styles.deleteButton}
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (rowData.id) {
-                    handleDelete(rowData.id);
-                  }
+                  handleDeleteCustomer(customer);
                 }}
-                aria-label={`Delete ${rowData.name}`}
+                aria-label={`Delete ${customer.name}`}
                 title="Delete"
               >
                 <svg
-                  width="16"
-                  height="16"
+                  width="14"
+                  height="14"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -497,27 +754,7 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <div className={styles.headerContent}>
-          <div className={styles.headerLeft}>
-            <h1 className={styles.logo}>Your App</h1>
-            <nav className={styles.nav}>
-              <Link href="/" className={`${styles.navLink} ${styles.active}`}>
-                Home
-              </Link>
-              <Link href="/data" className={styles.navLink}>
-                Data
-              </Link>
-            </nav>
-          </div>
-          <div className={styles.headerActions}>
-            <span className={styles.welcomeText}>Welcome, {user?.name}!</span>
-            <Button onClick={handleLogout} variant="outline">
-              Logout
-            </Button>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className={styles.main}>
         <div className={styles.hero}>
@@ -553,39 +790,35 @@ export default function Home() {
         <div className={styles.tableSection}>
           <div className={styles.card}>
             <div className={styles.tableHeader}>
-              <h3 className={styles.cardTitle}>Users Table</h3>
-              <Button onClick={handleAddClick} variant="primary">
-                Add Record
+              <h3 className={styles.cardTitle}>Customer Table</h3>
+              <Button onClick={handleAddNewCustomer} variant="primary">
+                Add New Customer
               </Button>
             </div>
-            {isTableLoading ? (
+            {isCustomerLoading ? (
               <div className={styles.loadingContainer}>
                 <LoadingSpinner size="lg" />
-                <p>Loading table data...</p>
+                <p>Loading customer data...</p>
               </div>
-            ) : tableError ? (
+            ) : customerError ? (
               <div className={styles.errorContainer}>
-                <p className={styles.errorMessage}>{tableError}</p>
+                <p className={styles.errorMessage}>{customerError}</p>
                 <Button
                   onClick={() => {
-                    setTableError(null);
-                    setIsTableLoading(true);
-                    tableApi.getTableData()
+                    setCustomerError(null);
+                    setIsCustomerLoading(true);
+                    customersApi.getCustomers()
                       .then((data) => {
-                        const dataWithIds = data.map((item, index) => ({
-                          ...item,
-                          id: item.id || index + 1,
-                        }));
-                        setTableData(dataWithIds);
-                        setIsTableLoading(false);
+                        setCustomerData(data);
+                        setIsCustomerLoading(false);
                       })
                       .catch((error: unknown) => {
                         if (error instanceof Error) {
-                          setTableError(error.message);
+                          setCustomerError(error.message);
                         } else {
-                          setTableError('Failed to load table data');
+                          setCustomerError('Failed to load customer data');
                         }
-                        setIsTableLoading(false);
+                        setIsCustomerLoading(false);
                       });
                   }}
                   variant="primary"
@@ -595,8 +828,8 @@ export default function Home() {
               </div>
             ) : (
               <Table
-                columns={tableColumns}
-                data={tableData as unknown as Record<string, unknown>[]}
+                columns={customerColumns}
+                data={customerData as unknown as Record<string, unknown>[]}
                 striped={true}
                 hoverable={true}
                 pagination={true}
@@ -697,209 +930,6 @@ export default function Home() {
         </div>
       </main>
 
-      <Modal
-        isOpen={isAddModalOpen}
-        onClose={handleCloseModal}
-        title="Add New Record"
-      >
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <InputField
-            id="name"
-            label="Name"
-            type="text"
-            value={formData.name}
-            onChange={(e) =>
-              setFormData({ ...formData, name: e.target.value })
-            }
-            error={formErrors.name}
-            required
-          />
-
-          <InputField
-            id="email"
-            label="Email"
-            type="email"
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
-            error={formErrors.email}
-            required
-          />
-
-          <div className={styles.formGroup}>
-            <label htmlFor="role" className={styles.label}>
-              Role <span className={styles.required}>*</span>
-            </label>
-            <select
-              id="role"
-              className={`${styles.select} ${formErrors.role ? styles.selectError : ''}`}
-              value={formData.role}
-              onChange={(e) =>
-                setFormData({ ...formData, role: e.target.value })
-              }
-            >
-              <option value="">Select a role</option>
-              <option value="Admin">Admin</option>
-              <option value="User">User</option>
-              <option value="Manager">Manager</option>
-              <option value="Developer">Developer</option>
-            </select>
-            {formErrors.role && (
-              <span className={styles.error}>{formErrors.role}</span>
-            )}
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="status" className={styles.label}>
-              Status <span className={styles.required}>*</span>
-            </label>
-            <select
-              id="status"
-              className={`${styles.select} ${formErrors.status ? styles.selectError : ''}`}
-              value={formData.status}
-              onChange={(e) =>
-                setFormData({ ...formData, status: e.target.value })
-              }
-            >
-              <option value="Active">Active</option>
-              <option value="Pending">Pending</option>
-              <option value="Inactive">Inactive</option>
-            </select>
-            {formErrors.status && (
-              <span className={styles.error}>{formErrors.status}</span>
-            )}
-          </div>
-
-          <InputField
-            id="joinDate"
-            label="Join Date"
-            type="date"
-            value={formData.joinDate}
-            onChange={(e) =>
-              setFormData({ ...formData, joinDate: e.target.value })
-            }
-            error={formErrors.joinDate}
-            required
-          />
-
-          <div className={styles.formActions}>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleCloseModal}
-              disabled={isSubmitting}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" variant="primary" isLoading={isSubmitting}>
-              Add Record
-            </Button>
-          </div>
-        </form>
-      </Modal>
-
-      <Modal
-        isOpen={isEditModalOpen}
-        onClose={handleCloseModal}
-        title="Edit Record"
-      >
-        <form onSubmit={handleSubmit} className={styles.form}>
-          <InputField
-            id="edit-name"
-            label="Name"
-            type="text"
-            value={formData.name}
-            onChange={(e) =>
-              setFormData({ ...formData, name: e.target.value })
-            }
-            error={formErrors.name}
-            required
-          />
-
-          <InputField
-            id="edit-email"
-            label="Email"
-            type="email"
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
-            error={formErrors.email}
-            required
-          />
-
-          <div className={styles.formGroup}>
-            <label htmlFor="edit-role" className={styles.label}>
-              Role <span className={styles.required}>*</span>
-            </label>
-            <select
-              id="edit-role"
-              className={`${styles.select} ${formErrors.role ? styles.selectError : ''}`}
-              value={formData.role}
-              onChange={(e) =>
-                setFormData({ ...formData, role: e.target.value })
-              }
-            >
-              <option value="">Select a role</option>
-              <option value="Admin">Admin</option>
-              <option value="User">User</option>
-              <option value="Manager">Manager</option>
-              <option value="Developer">Developer</option>
-            </select>
-            {formErrors.role && (
-              <span className={styles.error}>{formErrors.role}</span>
-            )}
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="edit-status" className={styles.label}>
-              Status <span className={styles.required}>*</span>
-            </label>
-            <select
-              id="edit-status"
-              className={`${styles.select} ${formErrors.status ? styles.selectError : ''}`}
-              value={formData.status}
-              onChange={(e) =>
-                setFormData({ ...formData, status: e.target.value })
-              }
-            >
-              <option value="Active">Active</option>
-              <option value="Pending">Pending</option>
-              <option value="Inactive">Inactive</option>
-            </select>
-            {formErrors.status && (
-              <span className={styles.error}>{formErrors.status}</span>
-            )}
-          </div>
-
-          <InputField
-            id="edit-joinDate"
-            label="Join Date"
-            type="date"
-            value={formData.joinDate}
-            onChange={(e) =>
-              setFormData({ ...formData, joinDate: e.target.value })
-            }
-            error={formErrors.joinDate}
-            required
-          />
-
-          <div className={styles.formActions}>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleCloseModal}
-              disabled={isSubmitting}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" variant="primary" isLoading={isSubmitting}>
-              Update Record
-            </Button>
-          </div>
-        </form>
-      </Modal>
 
       <Modal
         isOpen={isEditStudentDeclarationModalOpen}
@@ -912,6 +942,407 @@ export default function Home() {
             onSubmit={handleStudentDeclarationFormSubmit}
           />
         )}
+      </Modal>
+
+      {/* View Customer Modal */}
+      <Modal
+        isOpen={isViewCustomerModalOpen}
+        onClose={handleCloseViewCustomerModal}
+        title="Customer Details"
+      >
+        {viewingCustomer && (
+          <div className={styles.customerDetails}>
+            <div className={styles.info}>
+              <div className={styles.infoItem}>
+                <span className={styles.infoLabel}>Name:</span>
+                <span className={styles.infoValue}>{viewingCustomer.name}</span>
+              </div>
+              <div className={styles.infoItem}>
+                <span className={styles.infoLabel}>Email:</span>
+                <span className={styles.infoValue}>{viewingCustomer.email}</span>
+              </div>
+              <div className={styles.infoItem}>
+                <span className={styles.infoLabel}>Phone:</span>
+                <span className={styles.infoValue}>{viewingCustomer.phone}</span>
+              </div>
+              <div className={styles.infoItem}>
+                <span className={styles.infoLabel}>Address:</span>
+                <span className={styles.infoValue}>{viewingCustomer.address}</span>
+              </div>
+              <div className={styles.infoItem}>
+                <span className={styles.infoLabel}>Total Spent:</span>
+                <span className={styles.infoValue}>${viewingCustomer.totalSpent.toFixed(2)}</span>
+              </div>
+              <div className={styles.infoItem}>
+                <span className={styles.infoLabel}>Last Purchase:</span>
+                <span className={styles.infoValue}>
+                  {new Date(viewingCustomer.lastPurchaseDate).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </span>
+              </div>
+              {viewingCustomer.purchases && viewingCustomer.purchases.length > 0 && (
+                <div className={styles.infoItem}>
+                  <span className={styles.infoLabel}>Purchases:</span>
+                  <div className={styles.purchasesList}>
+                    {viewingCustomer.purchases.map((purchase, index) => (
+                      <div key={index} className={styles.purchaseItem}>
+                        <div className={styles.purchaseItemInfo}>
+                          <div className={styles.purchaseProductName}>{purchase.productName}</div>
+                          <div className={styles.purchaseDetails}>
+                            <span className={styles.purchaseQuantity}>Qty: {purchase.quantity}</span>
+                            <span className={styles.purchaseAmount}>${purchase.totalAmount.toFixed(2)}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </Modal>
+
+      {/* Edit Customer Modal */}
+      <Modal
+        isOpen={isEditCustomerModalOpen}
+        onClose={handleCloseEditCustomerModal}
+        title="Edit Customer"
+      >
+        <form onSubmit={handleCustomerFormSubmit} className={styles.form}>
+          <div className={styles.formGrid}>
+            <InputField
+              label="Name"
+              value={customerFormData.name}
+              onChange={(e) => handleCustomerInputChange('name', e.target.value)}
+              error={customerFormErrors.name}
+              required
+            />
+            <InputField
+              label="Email"
+              type="email"
+              value={customerFormData.email}
+              onChange={(e) => handleCustomerInputChange('email', e.target.value)}
+              error={customerFormErrors.email}
+              required
+            />
+            <InputField
+              label="Phone"
+              value={customerFormData.phone}
+              onChange={(e) => handleCustomerInputChange('phone', e.target.value)}
+              error={customerFormErrors.phone}
+              required
+            />
+            <InputField
+              label="Address"
+              value={customerFormData.address}
+              onChange={(e) => handleCustomerInputChange('address', e.target.value)}
+              error={customerFormErrors.address}
+              required
+            />
+          </div>
+
+          {/* Purchase Management Section */}
+          <div className={styles.purchaseSection}>
+            <h4 className={styles.sectionTitle}>Manage Purchases</h4>
+            
+            {/* Add/Edit Purchase Form */}
+            <div className={styles.purchaseForm}>
+              <Select
+                label="Product"
+                value={newPurchase.productId}
+                onChange={(e) => {
+                  const selectedProduct = products.find(p => p.productId === e.target.value);
+                  setNewPurchase({
+                    ...newPurchase,
+                    productId: e.target.value,
+                    productName: selectedProduct?.productName || '',
+                  });
+                }}
+                options={[
+                  { value: '', label: 'Select a product' },
+                  ...Array.from(new Map(products.map(p => [p.productId, p])).values()).map(p => ({
+                    value: p.productId,
+                    label: `${p.productName} (ID: ${p.productId})`,
+                  })),
+                ]}
+              />
+              <InputField
+                label="Quantity"
+                type="number"
+                value={newPurchase.quantity}
+                onChange={(e) => setNewPurchase({ ...newPurchase, quantity: parseInt(e.target.value) || 1 })}
+                min="1"
+                required
+              />
+              <InputField
+                label="Purchase Date"
+                type="date"
+                value={newPurchase.purchaseDate}
+                onChange={(e) => setNewPurchase({ ...newPurchase, purchaseDate: e.target.value })}
+                required
+              />
+              <div className={styles.purchaseFormActions}>
+                {editingPurchaseIndex !== null ? (
+                  <>
+                    <Button
+                      type="button"
+                      variant="primary"
+                      onClick={handleUpdatePurchase}
+                    >
+                      Update Purchase
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={handleCancelPurchaseEdit}
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    type="button"
+                    variant="primary"
+                    onClick={handleAddPurchase}
+                  >
+                    Add Purchase
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            {/* Purchases List */}
+            {customerFormData.purchases.length > 0 && (
+              <div className={styles.purchasesListContainer}>
+                <h5 className={styles.purchasesListTitle}>Current Purchases</h5>
+                <div className={styles.purchasesList}>
+                  {customerFormData.purchases.map((purchase, index) => (
+                    <div key={index} className={styles.purchaseItem}>
+                      <div className={styles.purchaseItemInfo}>
+                        <div className={styles.purchaseProductName}>{purchase.productName}</div>
+                        <div className={styles.purchaseDetails}>
+                          <span className={styles.purchaseQuantity}>Qty: {purchase.quantity}</span>
+                          <span className={styles.purchaseAmount}>${purchase.totalAmount.toFixed(2)}</span>
+                        </div>
+                      </div>
+                      <div className={styles.purchaseItemActions}>
+                        <button
+                          type="button"
+                          className={styles.editButton}
+                          onClick={() => handleEditPurchase(index)}
+                          title="Edit"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                          </svg>
+                        </button>
+                        <button
+                          type="button"
+                          className={styles.deleteButton}
+                          onClick={() => handleDeletePurchase(index)}
+                          title="Delete"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M3 6h18" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className={styles.totalSpent}>
+                  <strong>Total Spent: ${customerFormData.totalSpent.toFixed(2)}</strong>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className={styles.formActions}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleCloseEditCustomerModal}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" variant="primary" isLoading={isSubmittingCustomer}>
+              Update
+            </Button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* Add Customer Modal */}
+      <Modal
+        isOpen={isAddCustomerModalOpen}
+        onClose={handleCloseAddCustomerModal}
+        title="Add New Customer"
+      >
+        <form onSubmit={handleCustomerFormSubmit} className={styles.form}>
+          <div className={styles.formGrid}>
+            <InputField
+              label="Name"
+              value={customerFormData.name}
+              onChange={(e) => handleCustomerInputChange('name', e.target.value)}
+              error={customerFormErrors.name}
+              required
+            />
+            <InputField
+              label="Email"
+              type="email"
+              value={customerFormData.email}
+              onChange={(e) => handleCustomerInputChange('email', e.target.value)}
+              error={customerFormErrors.email}
+              required
+            />
+            <InputField
+              label="Phone"
+              value={customerFormData.phone}
+              onChange={(e) => handleCustomerInputChange('phone', e.target.value)}
+              error={customerFormErrors.phone}
+              required
+            />
+            <InputField
+              label="Address"
+              value={customerFormData.address}
+              onChange={(e) => handleCustomerInputChange('address', e.target.value)}
+              error={customerFormErrors.address}
+              required
+            />
+          </div>
+
+          {/* Purchase Management Section */}
+          <div className={styles.purchaseSection}>
+            <h4 className={styles.sectionTitle}>Add Purchases (Optional)</h4>
+            
+            {/* Add Purchase Form */}
+            <div className={styles.purchaseForm}>
+              <Select
+                label="Product"
+                value={newPurchase.productId}
+                onChange={(e) => {
+                  const selectedProduct = products.find(p => p.productId === e.target.value);
+                  setNewPurchase({
+                    ...newPurchase,
+                    productId: e.target.value,
+                    productName: selectedProduct?.productName || '',
+                  });
+                }}
+                options={[
+                  { value: '', label: 'Select a product' },
+                  ...Array.from(new Map(products.map(p => [p.productId, p])).values()).map(p => ({
+                    value: p.productId,
+                    label: `${p.productName} (ID: ${p.productId})`,
+                  })),
+                ]}
+              />
+              <InputField
+                label="Quantity"
+                type="number"
+                value={newPurchase.quantity}
+                onChange={(e) => setNewPurchase({ ...newPurchase, quantity: parseInt(e.target.value) || 1 })}
+                min="1"
+                required
+              />
+              <InputField
+                label="Purchase Date"
+                type="date"
+                value={newPurchase.purchaseDate}
+                onChange={(e) => setNewPurchase({ ...newPurchase, purchaseDate: e.target.value })}
+                required
+              />
+              <div className={styles.purchaseFormActions}>
+                <Button
+                  type="button"
+                  variant="primary"
+                  onClick={handleAddPurchase}
+                >
+                  Add Purchase
+                </Button>
+              </div>
+            </div>
+
+            {/* Purchases List */}
+            {customerFormData.purchases.length > 0 && (
+              <div className={styles.purchasesListContainer}>
+                <h5 className={styles.purchasesListTitle}>Purchases</h5>
+                <div className={styles.purchasesList}>
+                  {customerFormData.purchases.map((purchase, index) => (
+                    <div key={index} className={styles.purchaseItem}>
+                      <div className={styles.purchaseItemInfo}>
+                        <div className={styles.purchaseProductName}>{purchase.productName}</div>
+                        <div className={styles.purchaseDetails}>
+                          <span className={styles.purchaseQuantity}>Qty: {purchase.quantity}</span>
+                          <span className={styles.purchaseAmount}>${purchase.totalAmount.toFixed(2)}</span>
+                        </div>
+                      </div>
+                      <div className={styles.purchaseItemActions}>
+                        <button
+                          type="button"
+                          className={styles.deleteButton}
+                          onClick={() => handleDeletePurchase(index)}
+                          title="Delete"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M3 6h18" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className={styles.totalSpent}>
+                  <strong>Total Spent: ${customerFormData.totalSpent.toFixed(2)}</strong>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className={styles.formActions}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleCloseAddCustomerModal}
+            >
+              Cancel
+            </Button>
+            <Button type="submit" variant="primary" isLoading={isSubmittingCustomer}>
+              Create
+            </Button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* Delete Customer Modal */}
+      <Modal
+        isOpen={isDeleteCustomerModalOpen}
+        onClose={handleCloseDeleteCustomerModal}
+        title="Delete Customer"
+      >
+        <div className={styles.deleteModalContent}>
+          <p>
+            Are you sure you want to delete the customer &quot;{deletingCustomer?.name}&quot;? This
+            action cannot be undone.
+          </p>
+          <div className={styles.deleteModalActions}>
+            <Button
+              variant="outline"
+              onClick={handleCloseDeleteCustomerModal}
+            >
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handleConfirmDeleteCustomer} isLoading={isSubmittingCustomer}>
+              Delete
+            </Button>
+          </div>
+        </div>
       </Modal>
     </div>
   );

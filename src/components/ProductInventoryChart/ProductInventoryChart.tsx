@@ -81,7 +81,8 @@ export default function ProductInventoryChart({ data }: ProductInventoryChartPro
   return (
     <div className={styles.chartContainer}>
       <h3 className={styles.chartTitle}>Product Inventory Overview</h3>
-      <ResponsiveContainer width="100%" height={450}>
+      <div className={styles.chartWrapper}>
+        <ResponsiveContainer width="100%" height={450}>
         <ComposedChart
           data={chartData}
           margin={{
@@ -151,6 +152,7 @@ export default function ProductInventoryChart({ data }: ProductInventoryChartPro
           />
         </ComposedChart>
       </ResponsiveContainer>
+      </div>
     </div>
   );
 }

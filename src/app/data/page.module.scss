@@ -280,6 +280,17 @@
     color: #ff6b6b;
   }
 
+  .viewButton {
+    color: $primary-color;
+    border-color: $primary-color;
+
+    &:hover {
+      background-color: rgba(0, 112, 243, 0.15);
+      border-color: $primary-hover;
+      color: $primary-hover;
+    }
+  }
+
   .editButton {
     color: $primary-color;
     border-color: $primary-color;
@@ -311,6 +322,7 @@
   flex-wrap: nowrap;
 }
 
+.viewButton,
 .editButton,
 .deleteButton {
   display: inline-flex;
@@ -343,6 +355,17 @@
   }
 }
 
+.viewButton {
+  color: $primary-color;
+  border-color: $primary-color;
+
+  &:hover {
+    background-color: $primary-light;
+    border-color: $primary-hover;
+    color: $primary-hover;
+  }
+}
+
 .editButton {
   color: $primary-color;
   border-color: $primary-color;
@@ -372,6 +395,13 @@
   margin-bottom: $spacing-lg;
   flex-wrap: wrap;
   gap: $spacing-md;
+}
+
+.cardHeaderActions {
+  display: flex;
+  gap: $spacing-md;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .form {
@@ -437,38 +467,13 @@
   }
 }
 
-@media (max-width: $breakpoint-sm) {
+@media (max-width: $breakpoint-md) {
   .main {
     padding: $spacing-xl $spacing-md;
   }
 
-  .header {
-    padding: $spacing-md;
-  }
-
-  .headerContent {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .headerLeft {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: $spacing-md;
-  }
-
-  .nav {
-    width: 100%;
-    flex-wrap: wrap;
-  }
-
-  .headerActions {
-    width: 100%;
-    justify-content: space-between;
-  }
-
   .heroTitle {
-    font-size: 2rem;
+    font-size: 2.25rem;
   }
 
   .heroSubtitle {
@@ -480,22 +485,12 @@
     gap: $spacing-md;
   }
 
-  .tableSection {
-    margin-top: $spacing-lg;
+  .summaryCard {
+    padding: $spacing-md;
   }
 
-  .formGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .actionButtons {
-    flex-direction: row;
-    justify-content: center;
-  }
-
-  .cardHeader {
-    flex-direction: column;
-    align-items: stretch;
+  .summaryValue {
+    font-size: 1.5rem;
   }
 
   .filtersContainer {
@@ -507,6 +502,234 @@
   .clearFiltersButton {
     margin-left: 0;
     width: 100%;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    align-items: stretch;
+    gap: $spacing-md;
+
+    button {
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .main {
+    padding: $spacing-lg $spacing-md;
+  }
+
+  .hero {
+    padding: $spacing-xl 0;
+  }
+
+  .heroTitle {
+    font-size: 1.75rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+
+  .summaryCards {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+
+  .summaryCard {
+    padding: $spacing-md;
+  }
+
+  .summaryLabel {
+    font-size: 0.75rem;
+  }
+
+  .summaryValue {
+    font-size: 1.5rem;
+  }
+
+  .filtersSection {
+    margin-bottom: $spacing-xl;
+  }
+
+  .filtersContainer {
+    padding: $spacing-md;
+  }
+
+  .tableSection {
+    margin-top: $spacing-lg;
+  }
+
+  .card {
+    padding: $spacing-md;
+  }
+
+  .cardTitle {
+    font-size: 1.25rem;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+    gap: $spacing-md;
+  }
+
+  .formActions {
+    flex-direction: column-reverse;
+    gap: $spacing-sm;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .actionButtons {
+    flex-direction: row;
+    justify-content: center;
+    gap: $spacing-xs;
+  }
+
+  .viewButton,
+  .editButton,
+  .deleteButton {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.breakdownContent {
+  padding: $spacing-md 0;
+}
+
+.breakdownSummary {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  background-color: $bg-secondary;
+  border-radius: $radius-md;
+  margin-bottom: $spacing-xl;
+}
+
+.breakdownSummaryItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.breakdownLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: $text-secondary;
+}
+
+.breakdownValue {
+  font-size: 1rem;
+  font-weight: 600;
+  color: $text-primary;
+}
+
+.breakdownTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: $text-primary;
+  margin: 0 0 $spacing-md 0;
+}
+
+.breakdownList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: $spacing-md;
+}
+
+.breakdownItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-md;
+  background-color: $bg-primary;
+  border: 1px solid $border-color;
+  border-radius: $radius-md;
+  transition: all $transition-base;
+
+  &:hover {
+    border-color: $primary-color;
+    box-shadow: $shadow-sm;
+  }
+}
+
+.breakdownItemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  flex: 1;
+}
+
+.breakdownCustomerName {
+  font-weight: 600;
+  color: $text-primary;
+  font-size: 0.9375rem;
+}
+
+.breakdownDate {
+  font-size: 0.875rem;
+  color: $text-secondary;
+}
+
+.breakdownQuantity {
+  font-size: 1rem;
+  color: $primary-color;
+  font-weight: 600;
+}
+
+.breakdownTotal {
+  padding-top: $spacing-md;
+  border-top: 2px solid $border-color;
+  text-align: right;
+  font-size: 1.125rem;
+  color: $text-primary;
+}
+
+.breakdownEmpty {
+  text-align: center;
+  padding: $spacing-2xl;
+  color: $text-secondary;
+}
+
+@media (prefers-color-scheme: dark) {
+  .breakdownSummary {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .breakdownValue,
+  .breakdownTitle,
+  .breakdownCustomerName,
+  .breakdownTotal {
+    color: $text-white;
+  }
+
+  .breakdownDate {
+    color: $text-light;
+  }
+
+  .breakdownItem {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+
+    &:hover {
+      border-color: $primary-color;
+    }
+  }
+
+  .breakdownTotal {
+    border-top-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .breakdownEmpty {
+    color: $text-light;
   }
 }
 
