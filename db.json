@@ -668,7 +668,7 @@
       "totalStock": 200,
       "availableStock": 5,
       "soldQuantity": 195,
-      "date": "2022-03-10",
+      "date": "2025-03-10",
       "id": "3"
     },
     {
@@ -677,7 +677,7 @@
       "totalStock": 100,
       "availableStock": 58,
       "soldQuantity": 42,
-      "date": "2025-04-05",
+      "date": "2022-04-05",
       "id": "4"
     },
     {
